@@ -5,16 +5,16 @@
   <div class="container">
     <a href="@path/" @if(active == ""){ class="active"}>
       <i class="octicon octicon-rss"></i>
-      News Feed
+      RSS订阅
     </a>
     @if(loginAccount.isDefined){
       <a href="@path/dashboard/pulls" @if(active == "pulls" ){ class="active"}>
         <i class="octicon octicon-git-pull-request"></i>
-        Pull Requests
+        申请合并
       </a>
       <a href="@path/dashboard/issues" @if(active == "issues"){ class="active"}>
         <i class="octicon octicon-issue-opened"></i>
-        Issues
+        问题
       </a>
     }
   </div>

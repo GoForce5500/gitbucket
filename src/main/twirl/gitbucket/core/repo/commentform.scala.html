@@ -35,7 +35,7 @@
     </div>
     @if(!fileName.isDefined){
       <div class="pull-right">
-        <input type="submit" class="btn btn-success" formaction="@url(repository)/commit/@commitId/comment/new" value="Comment on this commit"/>
+        <input type="submit" class="btn btn-success" formaction="@url(repository)/commit/@commitId/comment/new" value="为此次提交添加备注"/>
       </div>
     }
     @issueId.map { issueId => <input type="hidden" name="issueId" value="@issueId"> }

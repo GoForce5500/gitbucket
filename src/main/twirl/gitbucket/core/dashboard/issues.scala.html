@@ -7,7 +7,7 @@
   groups: List[String])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main("Issues"){
+@html.main("issues"){
   @dashboard.html.tab("issues")
   <div class="container">
     @issuesnavi(filter, "issues", condition)

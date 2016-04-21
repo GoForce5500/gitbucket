@@ -3,7 +3,7 @@
 @import gitbucket.core.view.helpers._
 @main(account, Nil, "members", isGroupManager){
   @if(members.isEmpty){
-    No members
+    没有成员
   } else {
     @members.map { userName =>
       <div class="block">

@@ -2,11 +2,11 @@
 isCreateRepoOptionPublic: Boolean)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main("Create a New Repository"){
+@html.main("建立新的资料库"){
 <div style="width: 600px; margin: 10px auto;">
   <form id="form" method="post" action="@path/new" validate="true">
     <fieldset>
-      <label for="name" class="strong">Repository name:</label>
+      <label for="name" class="strong">资料库名:</label>
       <div class="btn-group" style="margin-bottom: 10px;" id="owner-dropdown">
         <button class="btn dropdown-toggle" data-toggle="dropdown">
           <span class="strong">@avatar(loginAccount.get.userName, 20) @loginAccount.get.userName</span>
@@ -25,38 +25,39 @@ isCreateRepoOptionPublic: Boolean)(implicit context: gitbucket.core.controller.C
       <span id="error-name" class="error"></span>
     </fieldset>
     <fieldset>
-      <label for="description" class="strong">Description (optional):</label>
+      <label for="description" class="strong">简介 (可选,能够使用中文标识):</label>
       <input type="text" name="description" id="description" style="width: 95%;"/>
     </fieldset>
-    <fieldset class="margin">
+    <fieldset class="margin" style="display: none">
       <label class="radio">
-        <input type="radio" name="isPrivate" value="false" @if(isCreateRepoOptionPublic){checked}>
-        <span class="strong"><i class="octicon octicon-repo"></i>&nbsp;</i>&nbsp;Public</span><br>
+        <input type="radio" name="isPrivate" value="false" checked="checked">
+
+        <span class="strong"><i class="octicon octicon-repo"></i>&nbsp;公开</span><br>
         <div>
-          <span>All users and guests can read this repository.</span>
+          <span>所有用户和访客均可访问此资料库.</span>
         </div>
       </label>
     </fieldset>
-    <fieldset>
+    <fieldset style="display: none">
       <label class="radio">
-        <input type="radio" name="isPrivate" value="true" @if(!isCreateRepoOptionPublic){checked}>
-        <span class="strong"><i class="octicon octicon-lock"></i>&nbsp;</i>&nbsp;Private</span><br>
+        <input type="radio" name="isPrivate" value="true">
+        <span class="strong"><i class="octicon octicon-lock"></i>&nbsp;私有</span><br>
         <div>
-          <span>Only collaborators can read this repository.</span>
+          <span>只有本资料库成员能够访问此资料库.</span>
         </div>
       </label>
     </fieldset>
-    <fieldset class="margin">
+    <fieldset class="margin" style="display: none">
       <label for="createReadme" class="checkbox">
-        <input type="checkbox" name="createReadme" id="createReadme"/>
-        <span class="strong">Initialize this repository with a README</span>
+        <input type="checkbox" name="createReadme" id="createReadme" checked="checked" />
+        <span class="strong">建立资料库时同时建立资料说明文件</span>
         <div>
-          <span>This will allow you to <code>git clone</code> the repository immediately.</span>
+          <span>这将允许您使用 <code>git clone</code> 立即复制资料库内容.</span>
         </div>
       </label>
     </fieldset>
     <fieldset class="margin">
-      <input type="submit" class="btn btn-success" value="Create repository"/>
+      <input type="submit" class="btn btn-success" value="创建资料库"/>
     </fieldset>
   </form>
 </div>

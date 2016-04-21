@@ -42,70 +42,70 @@ trait AccountControllerBase extends AccountManagementControllerBase {
   case class PersonalTokenForm(note: String)
 
   val newForm = mapping(
-    "userName"    -> trim(label("User name"    , text(required, maxlength(100), identifier, uniqueUserName))),
-    "password"    -> trim(label("Password"     , text(required, maxlength(20)))),
-    "fullName"    -> trim(label("Full Name"    , text(required, maxlength(100)))),
-    "mailAddress" -> trim(label("Mail Address" , text(required, maxlength(100), uniqueMailAddress()))),
+    "userName"    -> trim(label("用户名"    , text(required, maxlength(40), identifier, uniqueUserName))),
+    "password"    -> trim(label("密码"     , text(required, maxlength(20)))),
+    "fullName"    -> trim(label("全名"    , text(required, maxlength(100)))),
+    "mailAddress" -> trim(label("邮件地址" , text(required, maxlength(100), uniqueMailAddress()))),
     "url"         -> trim(label("URL"          , optional(text(maxlength(200))))),
-    "fileId"      -> trim(label("File ID"      , optional(text())))
+    "fileId"      -> trim(label("文件ID"      , optional(text())))
   )(AccountNewForm.apply)
 
   val editForm = mapping(
-    "password"    -> trim(label("Password"     , optional(text(maxlength(20))))),
-    "fullName"    -> trim(label("Full Name"    , text(required, maxlength(100)))),
-    "mailAddress" -> trim(label("Mail Address" , text(required, maxlength(100), uniqueMailAddress("userName")))),
+    "password"    -> trim(label("密码"     , optional(text(maxlength(20))))),
+    "fullName"    -> trim(label("全名"    , text(required, maxlength(100)))),
+    "mailAddress" -> trim(label("邮件地址" , text(required, maxlength(100), uniqueMailAddress("userName")))),
     "url"         -> trim(label("URL"          , optional(text(maxlength(200))))),
-    "fileId"      -> trim(label("File ID"      , optional(text()))),
-    "clearImage"  -> trim(label("Clear image"  , boolean()))
+    "fileId"      -> trim(label("文件ID"      , optional(text()))),
+    "clearImage"  -> trim(label("清除图像"  , boolean()))
   )(AccountEditForm.apply)
 
   val sshKeyForm = mapping(
-    "title"     -> trim(label("Title", text(required, maxlength(100)))),
-    "publicKey" -> trim(label("Key"  , text(required, validPublicKey)))
+    "title"     -> trim(label("标题", text(required, maxlength(100)))),
+    "publicKey" -> trim(label("公钥"  , text(required, validPublicKey)))
   )(SshKeyForm.apply)
 
   val personalTokenForm = mapping(
-    "note"     -> trim(label("Token", text(required, maxlength(100))))
+    "note"     -> trim(label("验证信息", text(required, maxlength(100))))
   )(PersonalTokenForm.apply)
 
   case class NewGroupForm(groupName: String, url: Option[String], fileId: Option[String], members: String)
   case class EditGroupForm(groupName: String, url: Option[String], fileId: Option[String], members: String, clearImage: Boolean)
 
   val newGroupForm = mapping(
-    "groupName" -> trim(label("Group name" ,text(required, maxlength(100), identifier, uniqueUserName))),
+    "groupName" -> trim(label("群组名" ,text(required, maxlength(100), identifier, uniqueUserName))),
     "url"       -> trim(label("URL"        ,optional(text(maxlength(200))))),
-    "fileId"    -> trim(label("File ID"    ,optional(text()))),
-    "members"   -> trim(label("Members"    ,text(required, members)))
+    "fileId"    -> trim(label("文件ID"    ,optional(text()))),
+    "members"   -> trim(label("成员"    ,text(required, members)))
   )(NewGroupForm.apply)
 
   val editGroupForm = mapping(
-    "groupName"  -> trim(label("Group name"  ,text(required, maxlength(100), identifier))),
+    "groupName"  -> trim(label("群组名"  ,text(required, maxlength(100), identifier))),
     "url"        -> trim(label("URL"         ,optional(text(maxlength(200))))),
-    "fileId"     -> trim(label("File ID"     ,optional(text()))),
-    "members"    -> trim(label("Members"     ,text(required, members))),
-    "clearImage" -> trim(label("Clear image" ,boolean()))
+    "fileId"     -> trim(label("文件ID"     ,optional(text()))),
+    "members"    -> trim(label("成员"     ,text(required, members))),
+    "clearImage" -> trim(label("清除图像" ,boolean()))
   )(EditGroupForm.apply)
 
   case class RepositoryCreationForm(owner: String, name: String, description: Option[String], isPrivate: Boolean, createReadme: Boolean)
   case class ForkRepositoryForm(owner: String, name: String)
 
   val newRepositoryForm = mapping(
-    "owner"        -> trim(label("Owner"          , text(required, maxlength(40), identifier, existsAccount))),
-    "name"         -> trim(label("Repository name", text(required, maxlength(40), repository, uniqueRepository))),
-    "description"  -> trim(label("Description"    , optional(text()))),
-    "isPrivate"    -> trim(label("Repository Type", boolean())),
-    "createReadme" -> trim(label("Create README"  , boolean()))
+    "owner"        -> trim(label("所有者"          , text(required, maxlength(40), identifier, existsAccount))),
+    "name"         -> trim(label("资料库名称", text(required, maxlength(40), repository, uniqueRepository))),
+    "description"  -> trim(label("简介"    , optional(text()))),
+    "isPrivate"    -> trim(label("资料库类型", boolean())),
+    "createReadme" -> trim(label("创建说明文档"  , boolean()))
   )(RepositoryCreationForm.apply)
 
   val forkRepositoryForm = mapping(
-    "owner" -> trim(label("Repository owner", text(required))),
-    "name"  -> trim(label("Repository name",  text(required)))
+    "owner" -> trim(label("资料库所有者", text(required))),
+    "name"  -> trim(label("资料库名",  text(required)))
   )(ForkRepositoryForm.apply)
 
   case class AccountForm(accountName: String)
 
   val accountForm = mapping(
-    "account" -> trim(label("Group/User name", text(required, validAccountName)))
+    "account" -> trim(label("群组名/用户名", text(required, validAccountName)))
   )(AccountForm.apply)
 
   /**
@@ -192,7 +192,7 @@ trait AccountControllerBase extends AccountManagementControllerBase {
         url         = form.url))
 
       updateImage(userName, form.fileId, form.clearImage)
-      flash += "info" -> "Account information has been updated."
+      flash += "info" -> "用户信息已被更新."
       redirect(s"/${userName}/_edit")
 
     } getOrElse NotFound
@@ -391,7 +391,7 @@ trait AccountControllerBase extends AccountManagementControllerBase {
           JsonFormat(ApiRepository(repository, ApiUser(getAccountByUserName(owner).get)))
         } else {
           ApiError(
-            "A repository with this name already exists on this account", 
+            "此帐户下已经存在相同名称的资料库",
             Some("https://developer.github.com/v3/repos/#create")
           )
         }
@@ -415,7 +415,7 @@ trait AccountControllerBase extends AccountManagementControllerBase {
           JsonFormat(ApiRepository(repository, ApiUser(getAccountByUserName(groupName).get)))
         } else {
           ApiError(
-            "A repository with this name already exists for this group", 
+            "群组内已经存在相同名称的资料库",
             Some("https://developer.github.com/v3/repos/#create")
           )
         }
@@ -533,12 +533,12 @@ trait AccountControllerBase extends AccountManagementControllerBase {
           "===============\n"
         }
 
-        builder.add(JGitUtil.createDirCacheEntry("README.md", FileMode.REGULAR_FILE,
+        builder.add(JGitUtil.createDirCacheEntry("ReadMe.md", FileMode.REGULAR_FILE,
           inserter.insert(Constants.OBJ_BLOB, content.getBytes("UTF-8"))))
         builder.finish()
 
         JGitUtil.createNewCommit(git, inserter, headId, builder.getDirCache.writeTree(inserter),
-          Constants.HEAD, loginAccount.fullName, loginAccount.mailAddress, "Initial commit")
+          Constants.HEAD, loginAccount.fullName, loginAccount.mailAddress, "建立资料库")
       }
     }
 
@@ -550,23 +550,23 @@ trait AccountControllerBase extends AccountManagementControllerBase {
   }
 
   private def insertDefaultLabels(userName: String, repositoryName: String): Unit = {
-    createLabel(userName, repositoryName, "bug", "fc2929")
-    createLabel(userName, repositoryName, "duplicate", "cccccc")
-    createLabel(userName, repositoryName, "enhancement", "84b6eb")
-    createLabel(userName, repositoryName, "invalid", "e6e6e6")
-    createLabel(userName, repositoryName, "question", "cc317c")
-    createLabel(userName, repositoryName, "wontfix", "ffffff")
+    createLabel(userName, repositoryName, "错误", "fc2929")
+    createLabel(userName, repositoryName, "重复", "cccccc")
+    createLabel(userName, repositoryName, "改进", "84b6eb")
+    createLabel(userName, repositoryName, "非法", "e6e6e6")
+    createLabel(userName, repositoryName, "问题", "cc317c")
+    createLabel(userName, repositoryName, "不予修复", "ffffff")
   }
 
   private def existsAccount: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
-      if(getAccountByUserName(value).isEmpty) Some("User or group does not exist.") else None
+      if(getAccountByUserName(value).isEmpty) Some("用户或用户组不存在.") else None
   }
 
   private def uniqueRepository: Constraint = new Constraint(){
     override def validate(name: String, value: String, params: Map[String, String], messages: Messages): Option[String] =
       params.get("owner").flatMap { userName =>
-        getRepositoryNamesOfUser(userName).find(_ == value).map(_ => "Repository already exists.")
+        getRepositoryNamesOfUser(userName).find(_ == value).map(_ => "资料库已经存在.")
       }
   }
 
@@ -574,14 +574,14 @@ trait AccountControllerBase extends AccountManagementControllerBase {
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       if(value.split(",").exists {
         _.split(":") match { case Array(userName, isManager) => isManager.toBoolean }
-      }) None else Some("Must select one manager at least.")
+      }) None else Some("请至少选择一名成员.")
     }
   }
 
   private def validPublicKey: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] = SshUtil.str2PublicKey(value) match {
      case Some(_) => None
-     case None => Some("Key is invalid.")
+     case None => Some("公钥非法.")
     }
   }
 
@@ -589,7 +589,7 @@ trait AccountControllerBase extends AccountManagementControllerBase {
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       getAccountByUserName(value) match {
         case Some(_) => None
-        case None => Some("Invalid Group/User Account.")
+        case None => Some("非法的用户名密码.")
       }
     }
   }

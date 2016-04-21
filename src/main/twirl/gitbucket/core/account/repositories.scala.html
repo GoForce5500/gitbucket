@@ -3,9 +3,9 @@
   isGroupManager: Boolean)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@main(account, groupNames, "repositories", isGroupManager){
+@main(account, groupNames, "资料库列表", isGroupManager){
   @if(repositories.isEmpty){
-    No repositories
+    尚无资料库
   } else {
     @repositories.map { repository =>
       <div class="block">
@@ -20,12 +20,12 @@
             }
           </div>
           @if(repository.repository.originUserName.isDefined){
-            <div class="small muted">forked from <a href="@path/@repository.repository.parentUserName/@repository.repository.parentRepositoryName">@repository.repository.parentUserName/@repository.repository.parentRepositoryName</a></div>
+            <div class="small muted">来源于 <a href="@path/@repository.repository.parentUserName/@repository.repository.parentRepositoryName">@repository.repository.parentUserName/@repository.repository.parentRepositoryName</a></div>
           }
           @if(repository.repository.description.isDefined){
             <div>@repository.repository.description</div>
           }
-          <div><span class="muted small">Updated @helper.html.datetimeago(repository.repository.lastActivityDate)</span></div>
+          <div><span class="muted small">更新于 @helper.html.datetimeago(repository.repository.lastActivityDate)</span></div>
         </div>
       </div>
     }

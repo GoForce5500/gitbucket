@@ -397,7 +397,7 @@ object JGitUtil {
     using(new RevWalk(git.getRepository)){ revWalk =>
       defining(git.getRepository.resolve(revision)){ objectId =>
         if(objectId == null){
-          Left(s"${revision} can't be resolved.")
+          Left(s"${revision} 无法被解析.")
         } else {
           revWalk.markStart(revWalk.parseCommit(objectId))
           if(path.nonEmpty){
@@ -660,11 +660,11 @@ object JGitUtil {
   def createBranch(git: Git, fromBranch: String, newBranch: String) = {
     try {
       git.branchCreate().setStartPoint(fromBranch).setName(newBranch).call()
-      Right("Branch created.")
+      Right("分支成功创建.")
     } catch {
-      case e: RefAlreadyExistsException => Left("Sorry, that branch already exists.")
+      case e: RefAlreadyExistsException => Left("分支已经存在.")
       // JGitInternalException occurs when new branch name is 'a' and the branch whose name is 'a/*' exists.
-      case _: InvalidRefNameException | _: JGitInternalException => Left("Sorry, that name is invalid.")
+      case _: InvalidRefNameException | _: JGitInternalException => Left("名称非法.")
     }
   }
 

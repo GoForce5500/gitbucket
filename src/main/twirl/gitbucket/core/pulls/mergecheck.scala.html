@@ -2,11 +2,11 @@
 <div style="margin-top: 8px;">
   @if(hasConflict){
     <i class="octicon octicon-x" style="color: #bd2c00"></i>
-    <span class="strong" style="color: #bd2c00;">Can’t automatically merge.</span>
-    <span class="muted">Don’t worry, you can still create the pull request.</span>
+    <span class="strong" style="color: #bd2c00;">存在冲突,不能进行自动合并.</span>
+    <span class="muted">不要紧,您依然可以创建合并请求.</span>
   } else {
     <i class="octicon octicon-check" style="color: #6cc644"></i>
-    <span class="strong" style="color: #6cc644">Able to merge.</span>
-    <span class="muted">These branches can be automatically merged.</span>
+    <span class="strong" style="color: #6cc644">能够进行合并.</span>
+    <span class="muted">分支已被自动合并.</span>
   }
 </div>

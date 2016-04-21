@@ -19,15 +19,15 @@
       </div>
       <div class="@if(hasWritePermission){span2} else {span4}">
         <div class="pull-right">
-          <span class="muted">@counts.get(label.labelName).getOrElse(0) open issues</span>
+          <span class="muted">@counts.get(label.labelName).getOrElse(0) 开放的问题</span>
         </div>
       </div>
       @if(hasWritePermission){
         <div class="span2">
           <div class="pull-right">
-            <a href="javascript:void(0);" onclick="editLabel(@label.labelId)">Edit</a>
+            <a href="javascript:void(0);" onclick="editLabel(@label.labelId)">修改</a>
             &nbsp;&nbsp;
-            <a href="javascript:void(0);" onclick="deleteLabel(@label.labelId)">Delete</a>
+            <a href="javascript:void(0);" onclick="deleteLabel(@label.labelId)">删除</a>
           </div>
         </div>
       }

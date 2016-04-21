@@ -9,7 +9,7 @@
 @import context._
 @import gitbucket.core.view.helpers._
 <div style="margin-bottom: 8px;">
-  <span class="muted small strong">Labels</span>
+  <span class="muted small strong">标签</span>
   @if(hasWritePermission){
     <div class="pull-right">
       @helper.html.dropdown(right = true) {
@@ -34,11 +34,11 @@
 </ul>
 <hr/>
 <div style="margin-bottom: 8px;">
-  <span class="muted small strong">Milestone</span>
+  <span class="muted small strong">里程碑</span>
   @if(hasWritePermission){
     <div class="pull-right">
       @helper.html.dropdown(right = true) {
-        <li><a href="javascript:void(0);" class="milestone" data-id=""><i class="octicon octicon-x"></i> Clear this milestone</a></li>
+        <li><a href="javascript:void(0);" class="milestone" data-id=""><i class="octicon octicon-x"></i>清除此里程碑</a></li>
         @milestones.filter(_._1.closedDate.isEmpty).map { case (milestone, _, _) =>
           <li>
             <a href="javascript:void(0);" class="milestone" data-id="@milestone.milestoneId" data-title="@milestone.title">
@@ -49,12 +49,12 @@
               <div class="small" style="padding-left: 20px;">
                 @milestone.dueDate.map { dueDate =>
                   @if(isPast(dueDate)){
-                  <i class="octicon octicon-alert" style="color:#BD2C00;"></i><span class="milestone-alert">Due by @date(dueDate)</span>
+                  <i class="octicon octicon-alert" style="color:#BD2C00;"></i><span class="milestone-alert">到期于 @date(dueDate)</span>
                   } else {
-                    <span class="muted">Due by @date(dueDate)</span>
+                    <span class="muted">到期于 @date(dueDate)</span>
                   }
                 }.getOrElse {
-                  <span class="muted">No due date</span>
+                  <span class="muted">无到期日期</span>
                 }
               </div>
             </a>
@@ -77,7 +77,7 @@
       <span class="strong small">@milestone.title</span>
     }
   }.getOrElse {
-    <span class="muted small">No milestone</span>
+    <span class="muted small">尚无里程碑</span>
   }
 </span>
 @if(issue.isEmpty){
@@ -85,11 +85,11 @@
 }
 <hr/>
 <div style="margin-bottom: 8px;">
-  <span class="muted small strong">Assignee</span>
+  <span class="muted small strong">指派</span>
   @if(hasWritePermission){
     <div class="pull-right">
       @helper.html.dropdown(right = true) {
-        <li><a href="javascript:void(0);" class="assign" data-name=""><i class="octicon octicon-x"></i> Clear assignee</a></li>
+        <li><a href="javascript:void(0);" class="assign" data-name=""><i class="octicon octicon-x"></i> 清除指派信息</a></li>
         @collaborators.map { collaborator =>
           <li>
             <a href="javascript:void(0);" class="assign" data-name="@collaborator">
@@ -105,7 +105,7 @@
   @issue.flatMap(_.assignedUserName).map { userName =>
     @avatar(userName, 20) @user(userName, styleClass="username strong small")
   }.getOrElse{
-    <span class="muted small">No one</span>
+    <span class="muted small">尚无指派人</span>
   }
 </span>
 @if(issue.isEmpty){
@@ -115,7 +115,7 @@
   <hr/>
   <div style="margin-bottom: 8px;">
     @defining((issue.openedUserName :: comments.map(_.commentedUserName)).distinct){ participants =>
-      <div class="muted small strong">@participants.size @plural(participants.size, "participant")</div>
+      <div class="muted small strong">@participants.size @plural(participants.size, "参与者")</div>
       @participants.map { participant =>
         @avatarLink(participant, 20, tooltip = true)
       }

@@ -22,7 +22,7 @@
         <th style="font-weight: normal;" class="box-header">
           @fileName
           <div class="pull-right align-right">
-            <a href="@url(repository)/blob/@branch/@{(pathList ::: List(fileName)).mkString("/")}" class="btn btn-small">View</a>
+            <a href="@url(repository)/blob/@branch/@{(pathList ::: List(fileName)).mkString("/")}" class="btn btn-small">查看</a>
           </div>
         </th>
         <tr>
@@ -37,14 +37,14 @@
         <div class="box issue-comment-box">
         <div class="box-content">
           <div>
-            <strong>Commit changes</strong>
+            <strong>提交修改</strong>
           </div>
           <div>
             <input type="text" name="message" style="width: 98%;"/>
           </div>
           <div style="text-align: right;">
-            <a href="@url(repository)/blob/@encodeRefName(branch)/@pathList.mkString("/")" class="btn btn-danger">Cancel</a>
-            <input type="submit" id="commit" class="btn btn-success" value="Commit changes"/>
+            <a href="@url(repository)/blob/@encodeRefName(branch)/@pathList.mkString("/")" class="btn btn-danger">取消</a>
+            <input type="submit" id="commit" class="btn btn-success" value="提交修改"/>
           </div>
         </div>
       </div>

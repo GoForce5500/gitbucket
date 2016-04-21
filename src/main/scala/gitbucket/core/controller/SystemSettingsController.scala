@@ -80,7 +80,7 @@ trait SystemSettingsControllerBase extends ControllerBase {
       SshServer.stop()
     }
 
-    flash += "info" -> "System settings has been updated."
+    flash += "info" -> "系统设置已被更新."
     redirect("/admin/system")
   })
 

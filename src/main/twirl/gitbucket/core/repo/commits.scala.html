@@ -58,11 +58,11 @@
                   }
                   <div class="small">
                     @user(commit.authorName, commit.authorEmailAddress, "username")
-                    <span class="muted">authored @helper.html.datetimeago(commit.authorTime)</span>
+                    <span class="muted">编纂于 @helper.html.datetimeago(commit.authorTime)</span>
                     @if(commit.isDifferentFromAuthor) {
                       <span class="octicon octicon-arrow-right" style="margin-top : -2px;"></span>
                       @user(commit.committerName, commit.committerEmailAddress, "username")
-                      <span class="muted">committed @helper.html.datetimeago(commit.authorTime)</span>
+                      <span class="muted">提交于 @helper.html.datetimeago(commit.authorTime)</span>
                     }
                   </div>
                 </div>
@@ -75,14 +75,14 @@
     <div class="pagination" style="text-align: center; margin-top: 30px">
       <ul>
         @if(page <= 1){
-          <li class="disabled"><span>Newer</span></li>
+          <li class="disabled"><span>较新的</span></li>
         } else {
-          <li><a href="?page=@{page - 1}">Newer</a></li>
+          <li><a href="?page=@{page - 1}">较新的</a></li>
         }
         @if(!hasNext){
-          <li class="disabled"><span>Older</span></li>
+          <li class="disabled"><span>较旧的</span></li>
         } else {
-          <li><a href="?page=@{page + 1}">Older</a></li>
+          <li><a href="?page=@{page + 1}">较旧的</a></li>
         }
       </ul>
     </div>

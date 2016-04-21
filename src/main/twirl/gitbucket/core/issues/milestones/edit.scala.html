@@ -2,11 +2,11 @@
   repository: gitbucket.core.service.RepositoryService.RepositoryInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"Milestones - ${repository.owner}/${repository.name}"){
+@html.main(s"里程碑 - ${repository.owner}/${repository.name}"){
   @html.menu("issues", repository){
     @if(milestone.isEmpty){
       <h4>New milestone</h4>
-      <div class="muted">Create a new milestone to help organize your issues and pull requests.</div>
+      <div class="muted">建立里程碑用来管理你受理的问题和合并请求.</div>
     } else {
       @issues.html.navigation("milestones", false, repository)
       <br><br>
@@ -14,11 +14,11 @@
     <hr style="margin-top: 12px; margin-bottom: 18px;" class="fill-width"/>
     <form method="POST" action="@url(repository)/issues/milestones/@if(milestone.isEmpty){new}else{@milestone.get.milestoneId/edit}" validate="true">
       <fieldset>
-        <input type="text" id="title" name="title" style="width: 500px;" value="@milestone.map(_.title)" placeholder="Title"/>
+        <input type="text" id="title" name="title" style="width: 500px;" value="@milestone.map(_.title)" placeholder="标题"/>
         <span id="error-title" class="error"></span>
       </fieldset>
       <fieldset>
-        <label for="description" class="strong">Description</label>
+        <label for="description" class="strong">介绍</label>
         <textarea id="description" name="description" style="width: 500px; height: 150px;">@milestone.map(_.description)</textarea>
         <span id="error-description" class="error"></span>
       </fieldset>
@@ -30,16 +30,16 @@
       <hr>
       <div class="pull-right">
         @if(milestone.isEmpty){
-          <input type="submit" class="btn" value="Create milestone"/>
+          <input type="submit" class="btn" value="建立里程碑"/>
         } else {
           @if(milestone.get.closedDate.isDefined){
-            <input type="button" class="btn" value="Open" id="open"
+            <input type="button" class="btn" value="开放" id="open"
                    onclick="location.href='@url(repository)/issues/milestones/@milestone.get.milestoneId/close';"/>
           } else {
-            <input type="button" class="btn" value="Close" id="close"
+            <input type="button" class="btn" value="关闭" id="close"
                    onclick="location.href='@url(repository)/issues/milestones/@milestone.get.milestoneId/open';"/>
           }
-          <input type="submit" class="btn" value="Update milestone"/>
+          <input type="submit" class="btn" value="更新里程碑"/>
         }
       </div>
     </form>

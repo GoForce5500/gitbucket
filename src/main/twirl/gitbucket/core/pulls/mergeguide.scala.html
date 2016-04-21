@@ -17,7 +17,7 @@
           @if(statuses.size==1){
             @defining(statuses.head){ status =>
             <div class="build-status-item">
-              @status.targetUrl.map{ url => <a class="pull-right" href="@url">Details</a> }
+              @status.targetUrl.map{ url => <a class="pull-right" href="@url">详情</a> }
               <span class="build-status-icon text-@{status.state.name}">@commitStateIcon(status.state)</span>
               <strong class="text-@{status.state.name}">@commitStateText(status.state, pullreq.commitIdTo)</strong>
               @status.description.map{ desc => <span class="muted">— @desc</span> }
@@ -35,7 +35,7 @@
                 <div class="build-statuses-list" style="@if(state==CommitState.SUCCESS){ display:none; }else{ }">
                   @statuses.map{ status =>
                   <div class="build-status-item">
-                    @status.targetUrl.map{ url => <a class="pull-right" href="@url">Details</a> }
+                    @status.targetUrl.map{ url => <a class="pull-right" href="@url">详情</a> }
                     <span class="build-status-icon text-@{status.state.name}">@commitStateIcon(status.state)</span>
                     <span class="text-@{status.state.name}">@status.context</span>
                     @status.description.map{ desc => <span class="muted">— @desc</span> }
@@ -52,35 +52,33 @@
       </div>
       <div>
         @if(hasConflict){
-          <span class="strong">We can’t automatically merge this pull request.</span>
+          <span class="strong">由于存在冲突,我们不能自动合并此合并请求.</span>
         } else {
           @if(hasProblem){
-            <span class="strong">Merge with caution!</span>
+            <span class="strong">合并出现警告!</span>
           } else {
-            <span class="strong">This pull request can be automatically merged.</span>
+            <span class="strong">此合并请求能够被自动合并.</span>
           }
         }
       </div>
       <div class="small">
         @if(hasConflict){
-          <a href="#" id="show-command-line">Use the command line</a> to resolve conflicts before continuing.
+          <a href="#" id="show-command-line">使用命令行工具</a> 在继续前解决问题.
         } else {
-          You can also merge branches on the <a href="#" id="show-command-line">command line</a>.
+          您也能够通过 <a href="#" id="show-command-line">command line</a>解决问题.
         }
       </div>
       <div id="command-line" style="display: none;">
         <hr>
         @if(hasConflict){
-          <span class="strong">Checkout via command line</span>
+          <span class="strong">通过命令行检出</span>
           <p>
-            If you cannot merge a pull request automatically here, you have the option of checking
-            it out via command line to resolve conflicts and perform a manual merge.
+            如果您不能在此自动合并请求, 您依然能够通过命令行工具手工合并请求.
           </p>
         } else {
-          <span class="strong">Merging via command line</span>
+          <span class="strong">通过命令行合并</span>
           <p>
-            If you do not want to use the merge button or an automatic merge cannot be performed,
-            you can perform a manual merge on the command line.
+            如果您不愿使用自动合并或自动合并无法进行,您可以通过命令行工具手工合并请求.
           </p>
         }
         @helper.html.copy("repository-url-copy", forkedRepository.httpUrl, true){
@@ -94,7 +92,7 @@
         }
         <div>
           <p>
-            <span class="strong">Step 1:</span> From your project repository, check out a new branch and test the changes.
+            <span class="strong">第一步:</span> 从您的项目目录检出新分支并确认内容正确.
           </p>
           @defining(s"git checkout -b ${pullreq.requestUserName}-${pullreq.requestBranch} ${pullreq.branch}\n" +
                     s"git pull ${forkedRepository.httpUrl} ${pullreq.requestBranch}"){ command =>
@@ -105,7 +103,7 @@
         </div>
         <div>
           <p>
-            <span class="strong">Step 2:</span> Merge the changes and update on the server.
+            <span class="strong">第二步:</span> 合并修改并上传回服务器.
           </p>
           @defining(s"git checkout ${pullreq.branch}\ngit merge --no-ff ${pullreq.requestUserName}-${pullreq.requestBranch}\n" +
                     s"git push origin ${pullreq.branch}"){ command =>
@@ -119,7 +117,7 @@
     <div id="confirm-merge-form" style="display: none;">
       <form method="POST" action="@url(originRepository)/pull/@pullreq.issueId/merge">
         <div class="strong">
-          Merge pull request #@issue.issueId from @{pullreq.requestUserName}/@{pullreq.requestBranch}
+          合并 #@issue.issueId 合并请求自 @{pullreq.requestUserName}/@{pullreq.requestBranch}
         </div>
         <span id="error-message" class="error"></span>
         <textarea name="message" style="width: 635px; height: 80px;">@issue.title</textarea>

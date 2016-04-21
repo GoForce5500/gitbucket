@@ -6,12 +6,12 @@
 @import gitbucket.core._
 @import gitbucket.core.view.helpers._
 @helper.html.dropdown(
-  value  = if(branch.length == 40) branch.substring(0, 10) else branch,
-  prefix = if(branch.length == 40) "tree" else if(repository.branchList.contains(branch)) "branch" else "tree",
+  value  = if(branch.length == 40) branch.substring(0, 10) else "分支",
+  prefix = if(branch.length == 40) "树" else if(repository.branchList.contains(branch)) "分支" else "树",
   mini   = false
 ) {
-  <li><div id="branch-control-title">Switch branches<button id="branch-control-close" class="pull-right">&times</button></div></li>
-  <li><input id="branch-control-input" type="text" placeholder="Find or create branch ..."/></li>
+  <li><div id="branch-control-title">切换分支<button id="branch-control-close" class="pull-right">&times</button></div></li>
+  <li><input id="branch-control-input" type="text" placeholder="查找或创建分支 ..."/></li>
   @body
   @if(hasWritePermission) {
     <li id="create-branch" style="display: none;">

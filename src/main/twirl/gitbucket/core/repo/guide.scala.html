@@ -6,9 +6,9 @@
 @html.main(s"${repository.owner}/${repository.name}", Some(repository)) {
   @html.menu("code", repository){
     @if(!hasWritePermission){
-      <h3>This is an empty repository</h3>
+      <h3>空白资料库</h3>
     } else {
-      <h3><strong>Quick setup</strong> — if you've done this kind of thing before</h3>
+      <h3><strong>快速建立</strong> — 如果您之前建立过</h3>
       <div class="empty-repo-options">
         via <a href="@repository.httpUrl" class="git-protocol-selector">HTTP</a>
       @if(settings.ssh && loginAccount.isDefined){
@@ -16,7 +16,7 @@
          <a href="@repository.sshUrl(settings.sshPort.getOrElse(SystemSettingsService.DefaultSshPort), loginAccount.get.userName)" class="git-protocol-selector">SSH</a>
       }
       </div>
-      <h3 style="margin-top: 30px;">Create a new repository on the command line</h3>
+      <h3 style="margin-top: 30px;">通过命令行建立新资料库</h3>
       @pre {
         touch README.md
         git init
@@ -25,7 +25,7 @@
         git remote add origin <span class="live-clone-url">@repository.httpUrl</span>
         git push -u origin master
       }
-      <h3 style="margin-top: 30px;">Push an existing repository from the command line</h3>
+      <h3 style="margin-top: 30px;">通过命令行推送已存在的资料库</h3>
       @pre {
         git remote add origin <span class="live-clone-url">@repository.httpUrl</span>
         git push -u origin master

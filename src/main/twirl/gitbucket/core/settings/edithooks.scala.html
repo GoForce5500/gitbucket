@@ -16,27 +16,27 @@
 
       <div class="box">
         <div class="box-header">
-          Webhook / Manage webhook
+          操作监听 / 管理操作监听
         </div>
         <div class="box-content-bottom">
           <form method="POST" validate="true">
             <div>
               <span class="error" id="error-url"></span>
             </div>
-            <label class="strong">Payload URL</label>
+            <label class="strong">通知 URL</label>
             @if(create){
               <input type="text" name="url" id="url" value="@webHook.url" class="input-xxlarge" style="margin-bottom: 0px;" required />
             } else {
               <input type="text" value="@webHook.url" style="margin-bottom: 0px;" class="input-xxlarge" disabled />
               <input type="hidden" value="@webHook.url" name="url" />
             }
-            <button class="btn" id="test">Test Hook</button>
+            <button class="btn" id="test">测试监听</button>
 
             <hr />
             <div>
               <span class="error" id="error-events"></span>
             </div>
-            <label class="strong">Which events would you like to trigger this webhook?</label>
+            <label class="strong">您希望此URL监听那种事件?</label>
             <!--
             <label class="checkbox"><input type="checkbox" @check("events",CommitComment) />Commit comment <small class="help-block">Commit or diff commented on. </small> </label>
             <label class="checkbox"><input type="checkbox" @check("events",Create) />Create <small class="help-block">Branch, or tag created. </small> </label>
@@ -53,19 +53,19 @@
             <label class="checkbox"><input type="checkbox" @check("events",Watch) />Watch <small class="help-block">User stars a repository.</small></label>
             <label class="checkbox"><input type="checkbox" @check("events",Status) />Status <small class="help-block">Commit status updated from the API. </small> </label>
             -->
-            <label class="checkbox"><input type="checkbox" @check("events",IssueComment) />Issue comment <small class="help-block">Issue commented on. </small> </label>
-            <label class="checkbox"><input type="checkbox" @check("events",Issues) />Issues <small class="help-block">Issue opened, closed<!-- , assigned, or labeled -->. </small> </label>
-            <label class="checkbox"><input type="checkbox" @check("events",PullRequest) />Pull Request <small class="help-block">Pull Request opened, closed<!-- , assigned, labeled -->, or synchronized. </small> </label>
-            <label class="checkbox"><input type="checkbox" @check("events",PullRequestReviewComment) />Pull Request review comment <small class="help-block">Pull Request diff commented on. </small> </label>
-            <label class="checkbox"><input type="checkbox" @check("events",Push) />Push <small class="help-block">Git push to a repository. </small> </label>
+            <label class="checkbox"><input type="checkbox" @check("events",IssueComment) />问题备注 <small class="help-block">问题产生新备注时. </small> </label>
+            <label class="checkbox"><input type="checkbox" @check("events",Issues) />问题 <small class="help-block">问题开放, 关闭时<!-- , assigned, or labeled -->. </small> </label>
+            <label class="checkbox"><input type="checkbox" @check("events",PullRequest) />合并申请 <small class="help-block">合并申请开放, 关闭<!-- , assigned, labeled -->, 或最终合并时. </small> </label>
+            <label class="checkbox"><input type="checkbox" @check("events",PullRequestReviewComment) />合并申请审阅备注 <small class="help-block">合并申请差异备注时. </small> </label>
+            <label class="checkbox"><input type="checkbox" @check("events",Push) />推送 <small class="help-block">Git 推送至资料库时. </small> </label>
             <hr />
             @if(!create){
-              <input type="submit" class="btn btn-success" value="Update webhook" formaction="@url(repository)/settings/hooks/edit/@urlEncode(webHook.url)" />
-              <a href="@url(repository)/settings/hooks/delete?url=@urlEncode(webHook.url)" class="btn text-error" onclick="return confirm('delete webhook for @webHook.url ?')">
-                Delete webhook
+              <input type="submit" class="btn btn-success" value="更新操作监听" formaction="@url(repository)/settings/hooks/edit/@urlEncode(webHook.url)" />
+              <a href="@url(repository)/settings/hooks/delete?url=@urlEncode(webHook.url)" class="btn text-error" onclick="return confirm('删除监听 @webHook.url ?')">
+                删除监听
               </a>
             } else {
-              <input type="submit" class="btn" value="Add webhook" formaction="@url(repository)/settings/hooks/new" />
+              <input type="submit" class="btn" value="增加操作监听" formaction="@url(repository)/settings/hooks/new" />
             }
           </form>
         </div>
@@ -73,35 +73,35 @@
       <div class="modal hide" id="test-report-modal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3>WebHook Test</h3>
+          <h3>监听测试</h3>
         </div>
         <div class="modal-body">
           <p>request to <span id="test-modal-url" style="word-break: break-all; word-wrap: break-word; white-space: pre; white-space: pre-wrap;"></span></p>
           <div id="test-report" style="display:none">
             <ul class="nav nav-tabs" id="test-report-tab">
-              <li class="active"><a href="#REQUEST">REQUEST</a></li>
-              <li><a href="#RESPONCE">RESPONCE <span class="badge badge-success" id="res-status"></span></a></li>
+              <li class="active"><a href="#REQUEST">申请</a></li>
+              <li><a href="#RESPONCE">反馈 <span class="badge badge-success" id="res-status"></span></a></li>
             </ul>
             <div class="tab-content" style="max-height: 300px;">
               <div class="tab-pane active" id="REQUEST">
                 <div id="req-errors" class="alert alert-error">
-                  ERROR<span id="req-errors-body"></span>
+                  错误<span id="req-errors-body"></span>
                 </div>
                 <div id="req-success" style="display:none">
-                  Headers
+                  报头
                   <pre id="req-headers"></pre>
-                  Payload
+                  内容
                   <pre id="req-payload"></pre>
                 </div>
               </div>
               <div class="tab-pane" id="RESPONCE">
                 <div id="res-errors" class="alert alert-error">
-                  ERROR<span id="res-errors-body"></span>
+                  错误<span id="res-errors-body"></span>
                 </div>
                 <div id="res-success" style="display:none">
-                  Headers
+                  报头
                   <pre id="res-headers"></pre>
-                  Body
+                  内容
                   <pre id="res-body"></pre>
                 </div>
               </div>
@@ -121,7 +121,7 @@ $(function(){
     e.preventDefault();
     var url = this.form.url.value;
     if(!/^https?:\/\/.+/.test(url)){
-      alert("invalid url");
+      alert("非法URL");
       return;
     }
     $("#test-modal-url").text(url)

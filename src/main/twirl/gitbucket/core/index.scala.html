@@ -9,7 +9,7 @@
     <div class="row-fluid">
       <div class="span8">
         <div class="pull-right">
-          <a href="@path/activities.atom"><img src="@assets/common/images/feed.png" alt="activities"></a>
+          <a href="@path/activities.atom"><img src="@assets/common/images/feed.png" alt="活动"></a>
         </div>
         @helper.html.activities(activities)
       </div>
@@ -26,13 +26,13 @@
         } else {
           <div class="box-header">
             <div class="pull-right">
-              <a href="@path/new" class="btn btn-success btn-mini">New repository</a>
+              <a href="@path/new" class="btn btn-success btn-mini">新建资料库</a>
             </div>
-            <span class="strong">Your repositories</span> <span class="label">@userRepositories.size</span>
+            <span class="strong">您的资料库</span> <span class="label">@userRepositories.size</span>
           </div>
             @if(userRepositories.isEmpty){
               <div class="box-content-bottom">
-                No repositories
+                尚无资料库
               </div>
             } else {
               <div class="box-content-bottom" style="padding: 0px;">
@@ -41,15 +41,15 @@
                     <div class="box-content-row repo-link" style="@if(i > max - 1){display:none;}">
                       @helper.html.repositoryicon(repository, false)
                       @if(repository.owner == loginAccount.get.userName){
-                        <a href="@url(repository)"><span class="strong">@repository.name</span></a>
+                        <a href="@url(repository)"><span class="strong">@if(repository.name.length>20){@repository.name.substring(0,18)...}else{@repository.name}</span></a><span style="float: right">@if(repository.repository.description.getOrElse("暂无备注").length>10){@repository.repository.description.getOrElse("暂无备注").substring(0,8)...}else{@repository.repository.description.getOrElse("暂无备注")}</span>
                       } else {
-                        <a href="@url(repository)">@repository.owner/<span class="strong">@repository.name</span></a>
+                        <a href="@url(repository)">@repository.owner/<span class="strong">@if(repository.name.length>20){@repository.name.substring(0,18)...}else{@repository.name}</span></a><span style="float: right">@if(repository.repository.description.getOrElse("暂无备注").length>10){@repository.repository.description.getOrElse("暂无备注").substring(0,8)...}else{@repository.repository.description.getOrElse("暂无备注")}</span>
                       }
                     </div>
                   }
                   @if(userRepositories.size > max){
                     <div class="box-content-row show-more">
-                      <a href="javascript:void(0);" id="show-more-repos">Show more @{userRepositories.size - max} pages...</a>
+                      <a href="javascript:void(0);" id="show-more-repos">查看另外的 @{userRepositories.size - max} 页...</a>
                     </div>
                   }
                 }
@@ -57,18 +57,18 @@
             }
         }
         <div class="box-header">
-          <span class="strong">Recent updated repositories</span>
+          <span class="strong">最近更新的资料库</span>
         </div>
         @if(recentRepositories.isEmpty){
           <div class="box-content-bottom">
-            No repositories
+            尚无资料库
           </div>
         } else {
           <div class="box-content-bottom" style="padding: 0px;">
             @recentRepositories.map { repository =>
               <div class="box-content-row repo-link">
                 @helper.html.repositoryicon(repository, false)
-                <a href="@url(repository)">@repository.owner/<span class="strong">@repository.name</span></a>
+                <a href="@url(repository)">@repository.owner/<span class="strong">@if(repository.name.length>20){@repository.name.substring(0,18)...}else{@repository.name}</span></a><span style="float: right">@if(repository.repository.description.getOrElse("暂无备注").length>10){@repository.repository.description.getOrElse("暂无备注").substring(0,8)...}else{@repository.repository.description.getOrElse("暂无备注")}</span>
               </div>
             }
           </div>

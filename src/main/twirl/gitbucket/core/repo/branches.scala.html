@@ -5,11 +5,11 @@
 @import gitbucket.core.view.helpers._
 @html.main(s"${repository.owner}/${repository.name}", Some(repository)) {
   @html.menu("code", repository){
-    <h1>Branches</h1>
+    <h1>分支列表</h1>
     <table class="table table-bordered table-hover table-issues branches">
       <thead>
         <tr>
-          <th style="background: #f5f5f5;color: #666;">All branches</th>
+          <th style="background: #f5f5f5;color: #666;">所有分支</th>
         </tr>
       </thead>
       <tbody>
@@ -21,12 +21,12 @@
                   <a href="@url(repository)/pull/@issue.issueId" title="@issue.title">#@issue.issueId</a>
                   @if(issue.closed) {
                     @if(info.isMerged){
-                      <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-info">Merged</a>
+                      <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-info">已合并的</a>
                     }else{
-                      <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-important">Closed</a>
+                      <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-important">已关闭的</a>
                     }
                   } else {
-                    <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-success">Open</a>
+                    <a href="@url(repository)/pull/@issue.issueId" title="@issue.title" class="label label-success">开放的</a>
                   }
                 }.getOrElse{
                   @if(context.loginAccount.isDefined){
@@ -34,20 +34,20 @@
                       urlEncode(parent) + ":" + encodeRefName(repository.repository.defaultBranch)
                     }.getOrElse {
                       encodeRefName(repository.repository.defaultBranch)
-                    }}...@{encodeRefName(branch.name)}?expand=1" class="btn btn-small">New Pull Request</a>
+                    }}...@{encodeRefName(branch.name)}?expand=1" class="btn btn-small">新建合并请求</a>
                   } else {
                     <a href="@url(repository)/compare/@{repository.repository.parentUserName.map { parent =>
                       urlEncode(parent) + ":" + encodeRefName(repository.repository.defaultBranch)
                     }.getOrElse {
                       encodeRefName(repository.repository.defaultBranch)
-                    }}...@{encodeRefName(branch.name)}" class="btn btn-small">Compare</a>
+                    }}...@{encodeRefName(branch.name)}" class="btn btn-small">比较</a>
                   }
                 }
                 @if(hasWritePermission){
                   @if(prs.map(!_._2.closed).getOrElse(false)){
-                    <a class="btn disabled btn-mini" data-toggle="tooltip" title="You can’t delete this branch because it has an open pull request"><i class="octicon octicon-trashcan"></i></a>
+                    <a class="btn disabled btn-mini" data-toggle="tooltip" title="此分支包含未合并的合并请求所以目前您还不能删除此分支"><i class="octicon octicon-trashcan"></i></a>
                   }else{
-                    <a href="@url(repository)/delete/@encodeRefName(branch.name)" class="btn  @if(info.isMerged){ btn-warning }else{ btn-danger } delete-branch btn-mini" data-name="@branch.name" @if(info.isMerged){ data-toggle="tooltip" title="this branch is merged" }><i class="octicon octicon-trashcan"></i></a>
+                    <a href="@url(repository)/delete/@encodeRefName(branch.name)" class="btn  @if(info.isMerged){ btn-warning }else{ btn-danger } delete-branch btn-mini" data-name="@branch.name" @if(info.isMerged){ data-toggle="tooltip" title="此分支已合并" }><i class="octicon octicon-trashcan"></i></a>
                   }
                 }
               }
@@ -55,14 +55,14 @@
           <div class="branch-details">
             <a href="@url(repository)/tree/@encodeRefName(branch.name)" class="branch-name">@branch.name</a>
             <span class="branch-meta">
-              <span>Updated @helper.html.datetimeago(branch.commitTime, false)
-                by <span>@user(branch.committerName, branch.committerEmailAddress, "muted-link")</span>
+              <span><span>@user(branch.committerName, branch.committerEmailAddress, "muted-link")</span>
+                更新于 @helper.html.datetimeago(branch.commitTime, false)
               </span>
             </span>
           </div>
           <div class="branch-a-b-count">
             @if(branch.mergeInfo.isEmpty){
-              <span class="label">Default</span>
+              <span class="label">默认</span>
             }else{
               @branch.mergeInfo.map{ info =>
                 <div data-toggle="tooltip" title="@info.ahead commits ahead, @info.behind commits behind @repository.repository.defaultBranch">
@@ -84,7 +84,7 @@
 $(function(){
   $('.delete-branch').click(function(e){
     var branchName = $(e.target).closest('a').data('name');
-    return confirm('Are you sure you want to remove the ' + branchName + ' branch?');
+    return confirm('您确定要删除分支 ' + branchName + ' ?');
   });
   $('*[data-toggle=tooltip]').tooltip().css("white-space","nowrap");
 });

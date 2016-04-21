@@ -88,7 +88,7 @@ trait WikiControllerBase extends ControllerBase {
     if(revertWikiPage(repository.owner, repository.name, from, to, context.loginAccount.get, Some(pageName))){
       redirect(s"/${repository.owner}/${repository.name}/wiki/${StringUtil.urlEncode(pageName)}")
     } else {
-      flash += "info" -> "This patch was not able to be reversed."
+      flash += "info" -> "此更新不能被撤销."
       redirect(s"/${repository.owner}/${repository.name}/wiki/${StringUtil.urlEncode(pageName)}/_compare/${from}...${to}")
     }
   })
@@ -99,7 +99,7 @@ trait WikiControllerBase extends ControllerBase {
     if(revertWikiPage(repository.owner, repository.name, from, to, context.loginAccount.get, None)){
       redirect(s"/${repository.owner}/${repository.name}/wiki/")
     } else {
-      flash += "info" -> "This patch was not able to be reversed."
+      flash += "info" -> "此更新不能被撤销."
       redirect(s"/${repository.owner}/${repository.name}/wiki/_compare/${from}...${to}")
     }
   })
@@ -185,9 +185,9 @@ trait WikiControllerBase extends ControllerBase {
   private def pagename: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       if(value.exists("\\/:*?\"<>|".contains(_))){
-        Some(s"${name} contains invalid character.")
+        Some(s"${name} 包含非法字符.")
       } else if(value.startsWith("_") || value.startsWith("-")){
-        Some(s"${name} starts with invalid character.")
+        Some(s"${name} 不能以'_'或'-'开始.")
       } else {
         None
       }
@@ -196,7 +196,7 @@ trait WikiControllerBase extends ControllerBase {
   private def conflictForNew: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       targetWikiPage.map { _ =>
-        "Someone has created the wiki since you started. Please reload this page and re-apply your changes."
+        "在您提交前已经有人新建了这个Wiki. 请刷新此页以重新提交您的修改."
       }
     }
   }
@@ -204,7 +204,7 @@ trait WikiControllerBase extends ControllerBase {
   private def conflictForEdit: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       targetWikiPage.filter(_.id != params("id")).map{ _ =>
-        "Someone has edited the wiki since you started. Please reload this page and re-apply your changes."
+        "在您提交前已经有人编辑了这个Wiki. 请刷新此页以重新提交您的修改."
       }
     }
   }

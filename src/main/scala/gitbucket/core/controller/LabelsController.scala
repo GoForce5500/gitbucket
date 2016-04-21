@@ -72,9 +72,9 @@ trait LabelsControllerBase extends ControllerBase {
   private def labelName: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       if(value.contains(',')){
-        Some(s"${name} contains invalid character.")
+        Some(s"${name} 包含非法字符','.")
       } else if(value.startsWith("_") || value.startsWith("-")){
-        Some(s"${name} starts with invalid character.")
+        Some(s"${name} 以非法字符'_'或'-'开始.")
       } else {
         None
       }

@@ -5,7 +5,7 @@
 @defining(label.map(_.labelId).getOrElse("new")){ labelId =>
 <div id="edit-label-area-@labelId">
   <form style="margin-bottom: 0px;">
-    <input type="text" id="labelName-@labelId" style="width: 300px; margin-bottom: 0px;" value="@label.map(_.labelName)"@if(labelId == "new"){ placeholder="New label name"}/>
+    <input type="text" id="labelName-@labelId" style="width: 300px; margin-bottom: 0px;" value="@label.map(_.labelName)"@if(labelId == "new"){ placeholder="新标签名"}/>
     <div id="label-color-@labelId" class="input-append color bscp" data-color="#@label.map(_.color).getOrElse("888888")" data-color-format="hex" style="width: 100px; margin-bottom: 0px;">
       <input type="text" class="span3" id="labelColor-@labelId" value="#@label.map(_.color).getOrElse("888888")" readonly style="width: 100px;">
       <span class="add-on"><i style="background-color: #@label.map(_.color).getOrElse("888888");"></i></span>
@@ -16,7 +16,7 @@
     <span class="pull-right">
       <span id="label-error-@labelId" class="error"></span>
       <input type="button" id="cancel-@labelId" class="btn label-edit-cancel" value="Cancel">
-      <input type="button" id="submit-@labelId" class="btn btn-success" style="margin-bottom: 0px;" value="@(if(labelId == "new") "Create label"  else "Save changes")"/>
+      <input type="button" id="submit-@labelId" class="btn btn-success" style="margin-bottom: 0px;" value="@(if(labelId == "new") "创建标签"  else "保存修改")"/>
     </span>
   </form>
 </div>

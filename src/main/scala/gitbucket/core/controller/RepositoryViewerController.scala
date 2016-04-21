@@ -72,29 +72,29 @@ trait RepositoryViewerControllerBase extends ControllerBase {
   )
 
   val editorForm = mapping(
-    "branch"        -> trim(label("Branch", text(required))),
-    "path"          -> trim(label("Path", text())),
-    "content"       -> trim(label("Content", text(required))),
-    "message"       -> trim(label("Message", optional(text()))),
-    "charset"       -> trim(label("Charset", text(required))),
-    "lineSeparator" -> trim(label("Line Separator", text(required))),
-    "newFileName"   -> trim(label("Filename", text(required))),
-    "oldFileName"   -> trim(label("Old filename", optional(text())))
+    "branch"        -> trim(label("分支", text(required))),
+    "path"          -> trim(label("路径", text())),
+    "content"       -> trim(label("内容", text(required))),
+    "message"       -> trim(label("消息", optional(text()))),
+    "charset"       -> trim(label("字符集", text(required))),
+    "lineSeparator" -> trim(label("换行符", text(required))),
+    "newFileName"   -> trim(label("文件名", text(required))),
+    "oldFileName"   -> trim(label("原文件名", optional(text())))
   )(EditorForm.apply)
 
   val deleteForm = mapping(
-    "branch"   -> trim(label("Branch", text(required))),
-    "path"     -> trim(label("Path", text())),
-    "message"  -> trim(label("Message", optional(text()))),
-    "fileName" -> trim(label("Filename", text(required)))
+    "branch"   -> trim(label("分支", text(required))),
+    "path"     -> trim(label("路径", text())),
+    "message"  -> trim(label("消息", optional(text()))),
+    "fileName" -> trim(label("文件名", text(required)))
   )(DeleteForm.apply)
 
   val commentForm = mapping(
-    "fileName"      -> trim(label("Filename", optional(text()))),
-    "oldLineNumber" -> trim(label("Old line number", optional(number()))),
-    "newLineNumber" -> trim(label("New line number", optional(number()))),
-    "content"       -> trim(label("Content", text(required))),
-    "issueId"       -> trim(label("Issue Id", optional(number())))
+    "fileName"      -> trim(label("文件名", optional(text()))),
+    "oldLineNumber" -> trim(label("原行号", optional(number()))),
+    "newLineNumber" -> trim(label("新行号", optional(number()))),
+    "content"       -> trim(label("内容", text(required))),
+    "issueId"       -> trim(label("问题Id", optional(number())))
   )(CommentForm.apply)
 
   /**
@@ -246,7 +246,7 @@ trait RepositoryViewerControllerBase extends ControllerBase {
       oldFileName = None,
       content     = appendNewLine(convertLineSeparator(form.content, form.lineSeparator), form.lineSeparator),
       charset     = form.charset,
-      message     = form.message.getOrElse(s"Create ${form.newFileName}")
+      message     = form.message.getOrElse(s"创建 ${form.newFileName}")
     )
 
     redirect(s"/${repository.owner}/${repository.name}/blob/${form.branch}/${
@@ -264,9 +264,9 @@ trait RepositoryViewerControllerBase extends ControllerBase {
       content     = appendNewLine(convertLineSeparator(form.content, form.lineSeparator), form.lineSeparator),
       charset     = form.charset,
       message     = if(form.oldFileName.exists(_ == form.newFileName)){
-        form.message.getOrElse(s"Update ${form.newFileName}")
+        form.message.getOrElse(s"更新 ${form.newFileName}")
       } else {
-        form.message.getOrElse(s"Rename ${form.oldFileName.get} to ${form.newFileName}")
+        form.message.getOrElse(s"重命名 ${form.oldFileName.get} 为 ${form.newFileName}")
       }
     )
 
@@ -277,7 +277,7 @@ trait RepositoryViewerControllerBase extends ControllerBase {
 
   post("/:owner/:repository/remove", deleteForm)(collaboratorsOnly { (form, repository) =>
     commitFile(repository, form.branch, form.path, None, Some(form.fileName), "", "",
-      form.message.getOrElse(s"Delete ${form.fileName}"))
+      form.message.getOrElse(s"删除 ${form.fileName}"))
 
     redirect(s"/${repository.owner}/${repository.name}/tree/${form.branch}${if(form.path.length == 0) "" else form.path}")
   })
@@ -568,7 +568,7 @@ trait RepositoryViewerControllerBase extends ControllerBase {
 
   private val readmeFiles = PluginRegistry().renderableExtensions.map { extension =>
     s"readme.${extension}"
-  } ++ Seq("readme.txt", "readme")
+  } ++ Seq("readme.txt", "readme", "说明文档.txt")
 
   /**
    * Provides HTML of the file list.

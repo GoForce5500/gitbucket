@@ -11,9 +11,9 @@ trait Validations {
   def identifier: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       if(!value.matches("[a-zA-Z0-9\\-_.]+")){
-        Some(s"${name} contains invalid character.")
+        Some(s"${name} 包含非法字符.")
       } else if(value.startsWith("_") || value.startsWith("-")){
-        Some(s"${name} starts with invalid character.")
+        Some(s"${name} 不能以'_'或'-'开始.")
       } else {
         None
       }
@@ -25,9 +25,9 @@ trait Validations {
   def repository: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       if(!value.matches("[a-zA-Z0-9\\-\\+_.]+")){
-        Some(s"${name} contains invalid character.")
+        Some(s"${name} 包含非法字符.")
       } else if(value.startsWith("_") || value.startsWith("-")){
-        Some(s"${name} starts with invalid character.")
+        Some(s"${name} 不能以'_'或'-'开始.")
       } else {
         None
       }

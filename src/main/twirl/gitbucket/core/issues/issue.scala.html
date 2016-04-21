@@ -15,10 +15,10 @@
         @if(hasWritePermission || loginAccount.map(_.userName == issue.openedUserName).getOrElse(false)){
           <a class="btn" href="#" id="edit">Edit</a>
         }
-        <a class="btn btn-success" href="@url(repository)/issues/new">New issue</a>
+        <a class="btn btn-success" href="@url(repository)/issues/new">新问题</a>
       </div>
       <div class="edit-title pull-right" style="display: none;">
-        <a class="btn" href="#" id="update">Save</a>  <a href="#" id="cancel">Cancel</a>
+        <a class="btn" href="#" id="update">Save</a>  <a href="#" id="cancel">取消</a>
       </div>
       <h1>
         <span class="show-title">
@@ -32,15 +32,15 @@
       </h1>
     </div>
     @if(issue.closed) {
-      <span class="label label-important issue-status">Closed</span>
+      <span class="label label-important issue-status">已关闭</span>
     } else {
-      <span class="label label-success issue-status">Open</span>
+      <span class="label label-success issue-status">开放中</span>
     }
     <span class="muted">
-      @user(issue.openedUserName, styleClass="username strong") opened this issue @helper.html.datetimeago(issue.registeredDate) - @defining(
+      @user(issue.openedUserName, styleClass="username strong") 提出此问题于 @helper.html.datetimeago(issue.registeredDate) - @defining(
         comments.count( _.action.contains("comment") )
       ){ count =>
-        @count @plural(count, "comment")
+        @count 回应
       }
     </span>
     <br/><br/>

@@ -4,7 +4,7 @@
   hasWritePermission: Boolean)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"Labels - ${repository.owner}/${repository.name}"){
+@html.main(s"标签 - ${repository.owner}/${repository.name}"){
   @html.menu("issues", repository){
     @issues.html.navigation("labels", hasWritePermission, repository)
     <br>
@@ -23,9 +23,9 @@
       @if(labels.isEmpty){
         <tr>
           <td style="padding: 20px; background-color: #eee; text-align: center;">
-            No labels to show.
+            尚无标签.
             @if(hasWritePermission){
-              <a href="@url(repository)/issues/labels/new">Create a new label.</a>
+              <a href="@url(repository)/issues/labels/new">创建新标签.</a>
             }
           </td>
         </tr>
@@ -50,7 +50,7 @@ $(function(){
 });
 
 function deleteLabel(labelId){
-  if(confirm('Once you delete this label, there is no going back.\nAre you sure?')){
+  if(confirm('您一旦删除标签将不能恢复.\n确认删除?')){
     $.post('@url(repository)/issues/labels/' + labelId + '/delete', function(){
       $('tr#label-row-' + labelId).remove();
     });

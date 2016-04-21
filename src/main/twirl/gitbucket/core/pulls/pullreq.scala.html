@@ -12,7 +12,7 @@
 @import context._
 @import gitbucket.core.view.helpers._
 @import gitbucket.core.model._
-@html.main(s"${issue.title} - Pull Request #${issue.issueId} - ${repository.owner}/${repository.name}", Some(repository)){
+@html.main(s"${issue.title} - 合并请求 #${issue.issueId} - ${repository.owner}/${repository.name}", Some(repository)){
   @html.menu("pulls", repository){
     @defining(dayByDayCommits.flatten){ commits =>
       <div>
@@ -20,10 +20,10 @@
           @if(hasWritePermission || loginAccount.map(_.userName == issue.openedUserName).getOrElse(false)){
             <a class="btn" href="#" id="edit">Edit</a>
           }
-          <a class="btn btn-success" href="@url(repository)/issues/new">New issue</a>
+          <a class="btn btn-success" href="@url(repository)/issues/new">新建问题</a>
         </div>
         <div class="edit-title pull-right" style="display: none;">
-          <a class="btn" href="#" id="update">Save</a>  <a href="#" id="cancel">Cancel</a>
+          <a class="btn" href="#" id="update">保存</a>  <a href="#" id="cancel">取消</a>
         </div>
         <h1>
           <span class="show-title">
@@ -41,21 +41,21 @@
           case comment: IssueComment => Some(comment)
           case _ => None
         }.find(_.action == "merge").map{ comment =>
-          <span class="label label-info issue-status">Merged</span>
+          <span class="label label-info issue-status">已合并的</span>
           <span class="muted">
-            @user(comment.commentedUserName, styleClass="username strong") merged @commits.size @plural(commits.size, "commit")
-            into <code>@pullreq.userName:@pullreq.branch</code> from <code>@pullreq.requestUserName:@pullreq.requestBranch</code>
+            @user(comment.commentedUserName, styleClass="username strong") 合并 @commits.size @plural(commits.size, "commit")
+            至 <code>@pullreq.userName:@pullreq.branch</code> 自 <code>@pullreq.requestUserName:@pullreq.requestBranch</code>
             @helper.html.datetimeago(comment.registeredDate)
           </span>
         }.getOrElse {
-          <span class="label label-important issue-status">Closed</span>
+          <span class="label label-important issue-status">已关闭的</span>
           <span class="muted">
             @user(issue.openedUserName, styleClass="username strong") wants to merge @commits.size @plural(commits.size, "commit")
             into <code>@pullreq.userName:@pullreq.branch</code> from <code>@pullreq.requestUserName:@pullreq.requestBranch</code>
           </span>
         }
       } else {
-        <span class="label label-success issue-status">Open</span>
+        <span class="label label-success issue-status">开放的</span>
         <span class="muted">
           @user(issue.openedUserName, styleClass="username strong") wants to merge @commits.size @plural(commits.size, "commit")
           into <code>@pullreq.userName:@pullreq.branch</code> from <code>@pullreq.requestUserName:@pullreq.requestBranch</code>
@@ -67,8 +67,8 @@
           case comment: IssueComment => Some(comment)
           case _: CommitComment => None
         }.size</span></a></li>
-        <li><a href="#commits">Commits <span class="badge">@commits.size</span></a></li>
-        <li><a href="#files">Files Changed <span class="badge">@diffs.size</span></a></li>
+        <li><a href="#commits">提交数 <span class="badge">@commits.size</span></a></li>
+        <li><a href="#files">变化数 <span class="badge">@diffs.size</span></a></li>
       </ul>
       <div class="tab-content fill-width pull-left">
         <div class="tab-pane active" id="conversation">

@@ -11,7 +11,7 @@
   @html.menu("code", repository){
     <div class="head">
       <div class="pull-right hide-if-blame"><div class="btn-group">
-        <a href="@url(repository)/find/@encodeRefName(branch)" class="btn btn-mini" data-toggle="tooltip" data-placement="bottom" data-hotkey="t" title="Quickly jump between files"><i class="octicon octicon-list-unordered"></i></a>
+        <a href="@url(repository)/find/@encodeRefName(branch)" class="btn btn-mini" data-toggle="tooltip" data-placement="bottom" data-hotkey="t" title="快速于文件间跳转"><i class="octicon octicon-list-unordered"></i></a>
       </div></div>
       <div class="line-age-legend">
         <span>Newer</span>
@@ -54,15 +54,15 @@
       <a href="@url(repository)/commit/@latestCommit.id" class="commit-message">@link(latestCommit.summary, repository)</a>
       <div class="btn-group pull-right">
         @if(hasWritePermission && content.viewType == "text" && repository.branchList.contains(branch)){
-          <a class="btn btn-mini" href="@url(repository)/edit/@encodeRefName(branch)/@pathList.mkString("/")">Edit</a>
+          <a class="btn btn-mini" href="@url(repository)/edit/@encodeRefName(branch)/@pathList.mkString("/")">编辑</a>
         }
-        <a class="btn btn-mini" href="?raw=true">Raw</a>
+        <a class="btn btn-mini" href="?raw=true">原始</a>
         @if(content.viewType == "text"){
-          <a class="btn btn-mini blame-action" href="@url(repository)/blame/@latestCommit.id/@pathList.mkString("/")" data-url="@url(repository)/get-blame/@latestCommit.id/@pathList.mkString("/")" data-repository="@url(repository)">Blame</a>
+          <a class="btn btn-mini blame-action" href="@url(repository)/blame/@latestCommit.id/@pathList.mkString("/")" data-url="@url(repository)/get-blame/@latestCommit.id/@pathList.mkString("/")" data-repository="@url(repository)">意见</a>
         }
-        <a class="btn btn-mini" href="@url(repository)/commits/@encodeRefName(branch)/@pathList.mkString("/")">History</a>
+        <a class="btn btn-mini" href="@url(repository)/commits/@encodeRefName(branch)/@pathList.mkString("/")">历史</a>
         @if(hasWritePermission && repository.branchList.contains(branch)){
-          <a class="btn btn-mini btn-danger" href="@url(repository)/remove/@encodeRefName(branch)/@pathList.mkString("/")">Delete</a>
+          <a class="btn btn-mini btn-danger" href="@url(repository)/remove/@encodeRefName(branch)/@pathList.mkString("/")">删除</a>
         }
       </div>
     </div>
@@ -86,9 +86,9 @@
       }
       @if(content.viewType == "large" || content.viewType == "binary"){
         <div class="box-content-bottom" style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
-          <a href="?raw=true">View Raw</a><br>
+          <a href="?raw=true">查看原始内容</a><br>
           <br>
-          (Sorry about that, but we can't show files that are this big right now)
+          (很遗憾,我们目前无法比较大文件)
         </div>
       }
   }
@@ -199,7 +199,7 @@ $(window).load(function(){
            .append(sha)
            .append($(blame.avatar).addClass('avatar').css({"float": "left"}))
            .append($('<div class="blame-commit-title">').text(blame.message))
-           .append($('<div class="muted">').html(blame.author + " authed " + blame.authed))
+           .append($('<div class="muted">').html(blame.author + " 鉴别 " + blame.authed))
            .appendTo(base);
         }
       });

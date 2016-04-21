@@ -52,7 +52,7 @@ trait WikiService {
       defining(Directory.getWikiRepositoryDir(owner, repository)){ dir =>
         if(!dir.exists){
           JGitUtil.initRepository(dir)
-          saveWikiPage(owner, repository, "Home", "Home", s"Welcome to the ${repository} wiki!!", loginAccount, "Initial Commit", None)
+          saveWikiPage(owner, repository, "Home", "Home", s"欢迎来到 ${repository} Wiki!!", loginAccount, "初始导入", None)
         }
       }
     }

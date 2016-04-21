@@ -5,16 +5,16 @@
   @html.menu("settings", repository){
     @menu("danger", repository){
       <div class="box">
-        <div class="box-header">Danger Zone</div>
+        <div class="box-header">危险操作</div>
         <div class="box-content-bottom">
           <form id="transfer-form" method="post" action="@url(repository)/settings/transfer" validate="true" autocomplete="off">
             <fieldset>
-              <label class="strong">Transfer Ownership</label>
+              <label class="strong">转移所有权</label>
               <div>
-                Transfer this repo to another user or to group.
+                转移此资料库的所有权至另一个用户或者一个用户组.
                 <div class="pull-right">
                   @helper.html.account("newOwner", 150)
-                  <input type="submit" class="btn btn-danger" value="Transfer"/>
+                  <input type="submit" class="btn btn-danger" value="确认"/>
                   <div>
                     <span id="error-newOwner" class="error"></span>
                   </div>
@@ -24,10 +24,10 @@
           </form>
           <form id="delete-form" method="post" action="@url(repository)/settings/delete">
             <fieldset class="margin">
-              <label class="strong">Delete repository</label>
+              <label class="strong">删除资料库</label>
               <div>
-                Once you delete a repository, there is no going back.
-                <input type="submit" class="btn btn-danger pull-right" value="Delete this repository"/>
+                删除资料库的操作不能撤销.
+                <input type="submit" class="btn btn-danger pull-right" value="删除此资料库"/>
               </div>
             </fieldset>
           </form>
@@ -39,7 +39,7 @@
 <script>
 $(function(){
   $('#delete-form').submit(function(){
-    return confirm('Once you delete a repository, there is no going back.\nAre you sure?');
+    return confirm('您删除资料库后将不能恢复.\n是否删除?');
   });
 });
 </script>

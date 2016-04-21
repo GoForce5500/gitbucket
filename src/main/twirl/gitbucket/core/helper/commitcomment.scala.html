@@ -15,14 +15,14 @@
     <div class="box-header">
       @user(comment.commentedUserName, styleClass="username strong")
         <span class="muted">
-          commented
+          添加备注于
           @if(comment.issueId.isDefined){
-            on this Pull Request
+            此合并申请
           } else {
             @if(comment.fileName.isDefined){
-              on @comment.fileName.get
+              @comment.fileName.get
             }
-            in <a href="@path/@repository.owner/@repository.name/commit/@comment.commitId">@comment.commitId.substring(0, 7)</a>
+            <a href="@path/@repository.owner/@repository.name/commit/@comment.commitId">@comment.commitId.substring(0, 7)</a>
           }
           @helper.html.datetimeago(comment.registeredDate)
         </span>

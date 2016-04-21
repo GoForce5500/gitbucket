@@ -1,37 +1,37 @@
 @(account: Option[gitbucket.core.model.Account], members: List[gitbucket.core.model.GroupMember])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(if(account.isEmpty) "Create group" else "Edit group"){
+@html.main(if(account.isEmpty) "创建群组" else "编辑群组"){
 <div class="container">
   <form id="form" method="post" action="@if(account.isEmpty){@path/groups/new} else {@path/@account.get.userName/_editgroup}" validate="true">
       <div class="row-fluid">
         <div class="span5">
           <fieldset>
-            <label for="groupName" class="strong">Group name</label>
+            <label for="groupName" class="strong">群组名</label>
             <div>
               <span id="error-groupName" class="error"></span>
             </div>
             <input type="text" name="groupName" id="groupName" value="@account.map(_.userName)"@if(account.isDefined){ readonly}/>
           </fieldset>
           <fieldset>
-            <label class="strong">URL (Optional)</label>
+            <label class="strong">URL (可选)</label>
             <div>
               <span id="error-url" class="error"></span>
             </div>
             <input type="text" name="url" id="url" style="width: 300px;" value="@account.map(_.url)"/>
           </fieldset>
           <fieldset>
-            <label for="avatar" class="strong">Image (Optional)</label>
+            <label for="avatar" class="strong">图像 (可选)</label>
             @helper.html.uploadavatar(account)
           </fieldset>
         </div>
         <div class="span7">
           <fieldset>
-            <label class="strong">Members</label>
+            <label class="strong">成员</label>
             <ul id="member-list" class="collaborator">
             </ul>
             @helper.html.account("memberName", 200)
-            <input type="button" class="btn" value="Add" id="addMember"/>
+            <input type="button" class="btn" value="添加" id="addMember"/>
             <input type="hidden" id="members" name="members" value="@members.map(member => member.userName + ":" + member.isManager).mkString(",")"/>
             <div>
               <span class="error" id="error-members"></span>
@@ -42,12 +42,12 @@
       <fieldset class="margin">
         @if(account.isDefined){
           <div class="pull-right">
-            <a href="@url(account.get.userName)/_deletegroup" id="delete" class="btn btn-danger">Delete Group</a>
+            <a href="@url(account.get.userName)/_deletegroup" id="delete" class="btn btn-danger">删除群组</a>
           </div>
         }
-        <input type="submit" class="btn btn-success" value="@if(account.isEmpty){Create Group} else {Update Group}"/>
+        <input type="submit" class="btn btn-success" value="@if(account.isEmpty){建立群组} else {更新群组}"/>
         @if(account.isDefined){
-          <a href="@url(account.get.userName)" class="btn">Cancel</a>
+          <a href="@url(account.get.userName)" class="btn">删除</a>
         }
       </fieldset>
   </form>
@@ -73,7 +73,7 @@ $(function(){
       return $(this).data('name') == userName;
     }).length > 0;
     if(exists){
-      $('#error-members').text('User has been already added.');
+      $('#error-members').text('用户已经被添加了.');
       return false;
     }
 
@@ -84,7 +84,7 @@ $(function(){
       if(data == 'true'){
         addMemberHTML(userName, false);
       } else {
-        $('#error-members').text('User does not exist.');
+        $('#error-members').text('用户不存在.');
       }
     });
   });
@@ -99,7 +99,7 @@ $(function(){
   });
 
   $('#delete').click(function(){
-    return confirm('Once you delete this group, there is no going back.\nAre you sure?');
+    return confirm('一旦您删除了此群组, 将不能恢复.\n确认删除群组?');
   });
 
   @members.map { member =>
@@ -107,11 +107,11 @@ $(function(){
   }
 
   function addMemberHTML(userName, isManager){
-    var memberButton = $('<button type="button" class="btn btn-default btn-mini" value="false">Member</button>').data('name', userName);
+    var memberButton = $('<button type="button" class="btn btn-default btn-mini" value="false">成员</button>').data('name', userName);
     if(!isManager){
       memberButton.addClass('active');
     }
-    var managerButton = $('<button type="button" class="btn btn-default btn-mini" value="true">Manager</button>').data('name', userName);
+    var managerButton = $('<button type="button" class="btn btn-default btn-mini" value="true">管理员</button>').data('name', userName);
     if(isManager){
       managerButton.addClass('active');
     }
@@ -124,7 +124,7 @@ $(function(){
       .append(' ')
       .append($('<a>').attr('href', '@path/' + userName).text(userName))
       .append(' ')
-      .append($('<a href="#" class="remove pull-right">(remove)</a>')));
+      .append($('<a href="#" class="remove pull-right">(删除)</a>')));
   }
 
   function updateMembers(){

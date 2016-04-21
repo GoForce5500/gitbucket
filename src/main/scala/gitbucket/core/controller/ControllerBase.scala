@@ -116,7 +116,7 @@ abstract class ControllerBase extends ScalatraFilter
       contentType = formats("json")
       org.scalatra.NotFound(ApiError("Not Found"))
     } else {
-      org.scalatra.NotFound(gitbucket.core.html.error("Not Found"))
+      org.scalatra.NotFound(gitbucket.core.html.error("未找到页面"))
     }
 
   protected def Unauthorized()(implicit context: Context) =
@@ -231,14 +231,14 @@ trait AccountManagementControllerBase extends ControllerBase {
 
   protected def uniqueUserName: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
-      getAccountByUserName(value, true).map { _ => "User already exists." }
+      getAccountByUserName(value, true).map { _ => "用户已存在." }
   }
 
   protected def uniqueMailAddress(paramName: String = ""): Constraint = new Constraint(){
     override def validate(name: String, value: String, params: Map[String, String], messages: Messages): Option[String] =
       getAccountByMailAddress(value, true)
         .filter { x => if(paramName.isEmpty) true else Some(x.userName) != params.get(paramName) }
-        .map    { _ => "Mail address is already registered." }
+        .map    { _ => "邮件地址已被使用." }
   }
 
 }

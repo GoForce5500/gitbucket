@@ -5,10 +5,10 @@
 @import context._
 @import gitbucket.core.view.helpers._
 <ul class="nav nav-pills-group  pull-left fill-width">
-  <li class="@if(active == "issues"    ){active} first"><a href="@url(repository)/issues">Issues</a></li>
-  <li class="@if(active == "pulls"     ){active}"><a href="@url(repository)/pulls">Pull requests</a></li>
-  <li class="@if(active == "labels"    ){active}"><a href="@url(repository)/issues/labels">Labels</a></li>
-  <li class="@if(active == "milestones"){active} last"><a href="@url(repository)/issues/milestones">Milestones</a></li>
+  <li class="@if(active == "issues"    ){active} first"><a href="@url(repository)/issues">问题列表</a></li>
+  <li class="@if(active == "pulls"     ){active}"><a href="@url(repository)/pulls">合并请求列表</a></li>
+  <li class="@if(active == "labels"    ){active}"><a href="@url(repository)/issues/labels">标签列表</a></li>
+  <li class="@if(active == "milestones"){active} last"><a href="@url(repository)/issues/milestones">里程碑列表</a></li>
   <li class="pull-right">
     <form method="GET" id="search-filter-form" style="margin-bottom: 0px;">
       @condition.map { condition =>
@@ -16,14 +16,14 @@
           <div class="input-prepend" style="margin-bottom: 0px;">
             <div class="btn-group">
               <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                Filter
+                过滤器
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <li><a href="?q=is:open">Open issues and pull requests</a></li>
-                <li><a href="?q=is:open+is:issue+author:@urlEncode(loginAccount.get.userName)">Your issues</a></li>
-                <li><a href="?q=is:open+is:pr+author:@urlEncode(loginAccount.get.userName)">Your pull requests</a></li>
-                <li><a href="?q=is:open+assignee:@urlEncode(loginAccount.get.userName)">Everything assigned to you</a></li>
+                <li><a href="?q=is:open">开放的问题和合并请求</a></li>
+                <li><a href="?q=is:open+is:issue+author:@urlEncode(loginAccount.get.userName)">您的问题</a></li>
+                <li><a href="?q=is:open+is:pr+author:@urlEncode(loginAccount.get.userName)">您的合并请求</a></li>
+                <li><a href="?q=is:open+assignee:@urlEncode(loginAccount.get.userName)">所有指派给您的内容</a></li>
                 @*
                 <li><a href="?q=is:open+mentions:@urlEncode(loginAccount.get.userName)">Everything mentioning you</a></li>
                 *@
@@ -39,16 +39,16 @@
         <div class="btn-group">
           @if(newButton){
             @if(active == "issues"){
-              <a class="btn btn-success" href="@url(repository)/issues/new" style="height: 24px;">New issue</a>
+              <a class="btn btn-success" href="@url(repository)/issues/new" style="height: 24px;">新问题</a>
             }
             @if(active == "pulls"){
-              <a class="btn btn-success" href="@url(repository)/compare" style="height: 24px;">New pull request</a>
+              <a class="btn btn-success" href="@url(repository)/compare" style="height: 24px;">新合并请求</a>
             }
             @if(active == "labels"){
-              <a class="btn btn-success" href="javascript:void(0);" id="new-label-button" style="height: 24px;">New label</a>
+              <a class="btn btn-success" href="javascript:void(0);" id="new-label-button" style="height: 24px;">新标签</a>
             }
             @if(active == "milestones"){
-              <a class="btn btn-success" href="@url(repository)/issues/milestones/new" style="height: 24px;">New milestone</a>
+              <a class="btn btn-success" href="@url(repository)/issues/milestones/new" style="height: 24px;">新里程碑</a>
             }
           }
         </div>

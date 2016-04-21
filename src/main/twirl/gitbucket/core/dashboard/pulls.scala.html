@@ -7,7 +7,7 @@
   groups: List[String])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main("Pull Requests"){
+@html.main("申请合并"){
   @dashboard.html.tab("pulls")
   <div class="container">
     @issuesnavi(filter, "pulls", condition)

@@ -5,7 +5,7 @@
   repository: gitbucket.core.service.RepositoryService.RepositoryInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"New Issue - ${repository.owner}/${repository.name}", Some(repository)){
+@html.main(s"创建问题 - ${repository.owner}/${repository.name}", Some(repository)){
   @html.menu("issues", repository){
     @navigation("issues", false, repository)
     <br/><br/><hr style="margin-bottom: 10px;">
@@ -16,7 +16,7 @@
           <div class="box issue-box">
             <div class="box-content">
               <span id="error-title" class="error"></span>
-              <input type="text" name="title" value="" placeholder="Title" style="width: 690px;" autofocus/>
+              <input type="text" name="title" value="" placeholder="标题" style="width: 690px;" autofocus/>
               @helper.html.preview(
                 repository         = repository,
                 content            = "",
@@ -28,7 +28,7 @@
                 elastic            = true
               )
               <div class="align-right">
-                <input type="submit" class="btn btn-success" value="Submit new issue"/>
+                <input type="submit" class="btn btn-success" value="提交新问题"/>
               </div>
             </div>
           </div>

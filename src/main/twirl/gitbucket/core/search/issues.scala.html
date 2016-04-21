@@ -6,12 +6,12 @@
 @import context._
 @import gitbucket.core.view.helpers._
 @import gitbucket.core.service.RepositorySearchService._
-@html.main("Search Results", Some(repository)){
+@html.main("查询条件", Some(repository)){
   @menu("issue", fileCount, issues.size, query, repository){
     @if(issues.isEmpty){
-      <h4>We couldn't find any code matching '@query'</h4>
+      <h4>我们不能查询到基于查询条件 '@query' 的结果</h4>
     } else {
-      <h4>We've found @issues.size code @plural(issues.size, "result")</h4>
+      <h4>我们为您找到了 @issues.size 条 @plural(issues.size, "结果")</h4>
     }
     @issues.drop((page - 1) * IssueLimit).take(IssueLimit).map { issue =>
       <div class="block">
@@ -21,10 +21,10 @@
           <pre>@Html(issue.highlightText)</pre>
         }
         <div class="small muted">
-          Opened by <a href="@url(issue.openedUserName)" class="username">@issue.openedUserName</a>
+          <a href="@url(issue.openedUserName)" class="username">@issue.openedUserName</a> 开放于
           @helper.html.datetimeago(issue.registeredDate)
           @if(issue.commentCount > 0){
-            &nbsp;&nbsp;<i class="octicon octicon-comment"></i><span class="strong">@issue.commentCount</span> @plural(issue.commentCount, "comment")
+            &nbsp;&nbsp;<i class="octicon octicon-comment"></i><span class="strong">@issue.commentCount</span> @plural(issue.commentCount, "备注")
           }
         </div>
       </div>

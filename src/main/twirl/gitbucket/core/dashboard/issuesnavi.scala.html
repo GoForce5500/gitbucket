@@ -5,13 +5,13 @@
 @import gitbucket.core.view.helpers._
 <ul class="nav nav-pills-group pull-left fill-width">
   <li class="@if(filter == "created_by"){active} first">
-    <a href="@path/dashboard/@active/created_by@condition.copy(author = None, assigned = None).toURL">Created</a>
+    <a href="@path/dashboard/@active/created_by@condition.copy(author = None, assigned = None).toURL">创建的</a>
   </li>
   <li class="@if(filter == "assigned"){active}">
-    <a href="@path/dashboard/@active/assigned@condition.copy(author = None, assigned = None).toURL">Assigned</a>
+    <a href="@path/dashboard/@active/assigned@condition.copy(author = None, assigned = None).toURL">被指派的</a>
   </li>
   <li class="@if(filter == "mentioned"){active} last">
-    <a href="@path/dashboard/@active/mentioned@condition.copy(author = None, assigned = None).toURL">Mentioned</a>
+    <a href="@path/dashboard/@active/mentioned@condition.copy(author = None, assigned = None).toURL">提及的</a>
   </li>
   <li class="pull-right">
     <form method="GET" id="search-filter-form" action="@path/dashboard/@active" style="margin-bottom: 0px;">

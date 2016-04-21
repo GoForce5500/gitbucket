@@ -6,7 +6,7 @@
   hasWritePermission: Boolean,
   style: String = "",
   styleClass: String = "",
-  placeholder: String = "Leave a comment",
+  placeholder: String = "写下备注",
   elastic: Boolean = false,
   tabIndex: Int = -2,
   uid: Long = new java.util.Date().getTime())(implicit context: gitbucket.core.controller.Context)
@@ -15,8 +15,8 @@
 @import gitbucket.core.view.helpers._
 <div class="tabbable">
   <ul class="nav nav-tabs" style="height: 37px;">
-    <li class="active"><a href="#tab@uid" data-toggle="tab">Write</a></li>
-    <li><a href="#tab@(uid+1)" data-toggle="tab" id="preview@uid">Preview</a></li>
+    <li class="active"><a href="#tab@uid" data-toggle="tab">编辑</a></li>
+    <li><a href="#tab@(uid+1)" data-toggle="tab" id="preview@uid">预览</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tab@uid">
@@ -48,7 +48,7 @@ $(function(){
   }
 
   $('#preview@uid').click(function(){
-    $('#preview-area@uid').html('<img src="@assets/common/images/indicator.gif"> Previewing...');
+    $('#preview-area@uid').html('<img src="@assets/common/images/indicator.gif"> 生成预览中...');
     $.post('@url(repository)/_preview', {
       content        : $('#content@uid').val(),
       enableWikiLink : @enableWikiLink,

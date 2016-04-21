@@ -28,12 +28,12 @@
     <div class="pull-right">
       <div class="input-prepend">
         @if(loginAccount.isEmpty){
-          <a title="You must be signed in to fork a repository" href="@path/signin?redirect=@urlEncode(s"${path}/${repository.owner}/${repository.name}")" class="btn btn-small" style="margin-bottom: 10px;">Fork</a>
+          <a title="您必须注册以复制资料库" href="@path/signin?redirect=@urlEncode(s"${path}/${repository.owner}/${repository.name}")" class="btn btn-small" style="margin-bottom: 10px;" >fork</a>
         } else {
           @if(isNoGroup) {
-            <a id="fork-link" href="javascript:void(0);" class="btn btn-small" style="margin-bottom: 10px;">Fork</a>
+            <a id="fork-link" href="javascript:void(0);" class="btn btn-small" style="margin-bottom: 10px;" title="复制此资料库以创建自己的版本" >fork</a>
           } else {
-            <a href="@path/@repository.owner/@repository.name/fork" class="btn btn-small" rel="facebox" style="margin-bottom: 10px;">Fork</a>
+            <a href="@path/@repository.owner/@repository.name/fork" class="btn btn-small" rel="facebox" style="margin-bottom: 10px;" title="复制此资料库以创建自己的版本" >fork</a>
           }
         }
         <span class="add-on count"><a href="@url(repository)/network/members">@repository.forkedCount</a></span>
@@ -52,7 +52,7 @@
     @defining(repository.repository){ x =>
       @if(repository.repository.originRepositoryName.isDefined){
         <div class="forked">
-          forked from <a href="@path/@x.parentUserName/@x.parentRepositoryName">@x.parentUserName/@x.parentRepositoryName</a>
+          复制自 <a href="@path/@x.parentUserName/@x.parentRepositoryName">@x.parentUserName/@x.parentRepositoryName</a>
         </div>
       }
     }
@@ -63,18 +63,18 @@
   <div style="width: @if(expand){170px} else {40px};" class="pull-right">
     <ul class="sidemenu">
       <li style="height: 12px"><div class="gradient pull-left" style="height: 12px"></div></li>
-      @sidemenu(""       , "code"   , "code" , "Code")
-      @sidemenu("/issues", "issues" , "issue-opened" , "Issues", repository.issueCount)
-      @sidemenu("/pulls" , "pulls"  , "git-pull-request" , "Pull Requests", repository.pullCount)
+      @sidemenu(""       , "code"   , "code" , "代码")
+      @sidemenu("/issues", "issues" , "issue-opened" , "问题", repository.issueCount)
+      @sidemenu("/pulls" , "pulls"  , "git-pull-request" , "合并请求", repository.pullCount)
       @sidemenu("/wiki"  , "wiki"   , "book"  , "Wiki")
       @if(loginAccount.isDefined && (loginAccount.get.isAdmin || repository.managers.contains(loginAccount.get.userName))){
-        @sidemenu("/settings" , "settings" , "tools", "Settings")
+        @sidemenu("/settings" , "settings" , "tools", "设置")
       }
       <li style="height: 12px"><div class="gradient pull-left" style="height: 12px"></div></li>
     </ul>
     @if(expand){
       <div class="small">
-        <strong id="repository-url-proto">HTTP</strong> <span class="mute">clone URL</span>
+        <strong id="repository-url-proto">HTTP</strong> <span class="mute">复制 URL</span>
       </div>
       @helper.html.copy("repository-url-copy", repository.httpUrl){
         <input type="text" value="@repository.httpUrl" id="repository-url" readonly>
@@ -87,11 +87,11 @@
       @id.map { id =>
         @if(context.platform != "linux" && context.platform != null){
         <div style="margin-top: 10px;">
-          <a href="@repository.httpOpenRepoUrl(context.platform)" id="repository-clone-url" class="btn btn-small" style="width: 147px;font-weight: bold;"><i class="octicon octicon-desktop-download"></i>&nbsp;&nbsp;Clone in Desktop</a>
+          <a href="@repository.httpOpenRepoUrl(context.platform)" id="repository-clone-url" class="btn btn-small" style="width: 147px;font-weight: bold;"><i class="octicon octicon-desktop-download"></i>&nbsp;&nbsp;复制至桌面</a>
         </div>
         }
         <div style="margin-top: 10px;">
-          <a href="@{url(repository)}/archive/@{encodeRefName(id)}.zip" class="btn btn-small" style="width: 147px;font-weight: bold;"><i class="octicon octicon-cloud-download"></i>Download ZIP</a>
+          <a href="@{url(repository)}/archive/@{encodeRefName(id)}.zip" class="btn btn-small" style="width: 147px;font-weight: bold;"><i class="octicon octicon-cloud-download"></i>下载压缩包</a>
         </div>
         @*
         <div style="margin-top: 10px;">
@@ -112,19 +112,19 @@
             <td style="width: 33%; text-align: center;">
               <a href="@url(repository)/commits/@encodeRefName(id.getOrElse(""))" class="header-link">
                 <i class="octicon octicon-history"></i>
-                <strong>@repository.commitCount</strong> commits
+                <strong>@repository.commitCount</strong> 提交
               </a>
             </td>
             <td style="width: 33%; text-align: center;">
               <a href="@url(repository)/branches" class="header-link" class="header-link">
                 <i class="octicon octicon-git-branch"></i>
-                <strong>@repository.branchList.length</strong> branches
+                <strong>@repository.branchList.length</strong> 分支
               </a>
             </td>
             <td style="width: 33%; text-align: center;">
               <a href="@url(repository)/tags" class="header-link" class="header-link">
                 <i class="octicon octicon-tag"></i>
-                <strong>@repository.tags.length</strong> releases
+                <strong>@repository.tags.length</strong> 发布
               </a>
             </td>
           </tr>

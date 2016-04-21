@@ -6,16 +6,16 @@
 @html.main("Settings", Some(repository)){
   @html.menu("settings", repository){
     @menu("collaborators", repository){
-      <h3>Manage Collaborators</h3>
+      <h3>管理合作者</h3>
       <ul class="collaborator">
         @collaborators.map { collaboratorName =>
           <li>
             <a href="@url(collaboratorName)">@collaboratorName</a>
             @if(!isGroupRepository){
-              <a href="@url(repository)/settings/collaborators/remove?name=@collaboratorName" class="remove">(remove)</a>
+              <a href="@url(repository)/settings/collaborators/remove?name=@collaboratorName" class="remove">(删除)</a>
             } else {
               @if(repository.managers.contains(collaboratorName)){
-                (Manager)
+                (管理者)
               }
             }
           </li>
@@ -27,7 +27,7 @@
             <span class="error" id="error-userName"></span>
           </div>
           @helper.html.account("userName", 300)
-          <input type="submit" class="btn" value="Add"/>
+          <input type="submit" class="btn" value="增加"/>
         </form>
       }
     }

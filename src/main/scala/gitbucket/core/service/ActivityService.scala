@@ -1,6 +1,6 @@
 package gitbucket.core.service
 
-import gitbucket.core.model.Activity
+import gitbucket.core.model.{Repository, Activity}
 import gitbucket.core.model.Profile._
 import gitbucket.core.util.JGitUtil
 import profile.simple._
@@ -47,18 +47,24 @@ trait ActivityService {
       .list
 
   def recordCreateRepositoryActivity(userName: String, repositoryName: String, activityUserName: String)
-                                    (implicit s: Session): Unit =
+                                    (implicit s: Session): Unit = {
+    val datetime=new java.util.Date()
     Activities insert Activity(userName, repositoryName, activityUserName,
       "create_repository",
-      s"[user:${activityUserName}] created [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 创建了 [repo:${userName}/${repositoryName}]",
       None,
-      currentDate)
+      datetime)
+//    updateLastActivityDateWithChoosenDate(userName,repositoryName,datetime)
+//  RepositoryService
+//  val repository=Repositories.filter(_.userName==userName).filter(_.repositoryName==repositoryName).map(_.)
+//    Repositories update Repository()
+  }
 
   def recordCreateIssueActivity(userName: String, repositoryName: String, activityUserName: String, issueId: Int, title: String)
                                (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "open_issue",
-      s"[user:${activityUserName}] opened issue [issue:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 提出问题 [issue:${userName}/${repositoryName}#${issueId}]",
       Some(title), 
       currentDate)
 
@@ -66,7 +72,7 @@ trait ActivityService {
                               (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "close_issue",
-      s"[user:${activityUserName}] closed issue [issue:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 关闭问题 [issue:${userName}/${repositoryName}#${issueId}]",
       Some(title),
       currentDate)
 
@@ -74,7 +80,7 @@ trait ActivityService {
                                     (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "close_issue",
-      s"[user:${activityUserName}] closed pull request [pullreq:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 关闭合并请求 [pullreq:${userName}/${repositoryName}#${issueId}]",
       Some(title),
       currentDate)
 
@@ -82,7 +88,7 @@ trait ActivityService {
                                (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "reopen_issue",
-      s"[user:${activityUserName}] reopened issue [issue:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 重新开放问题 [issue:${userName}/${repositoryName}#${issueId}]",
       Some(title),
       currentDate)
 
@@ -90,7 +96,7 @@ trait ActivityService {
                                 (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "comment_issue",
-      s"[user:${activityUserName}] commented on issue [issue:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 为问题添加备注 [issue:${userName}/${repositoryName}#${issueId}]",
       Some(cut(comment, 200)),
       currentDate)
 
@@ -98,7 +104,7 @@ trait ActivityService {
                                       (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "comment_issue",
-      s"[user:${activityUserName}] commented on pull request [pullreq:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 为合并请求添加备注 [pullreq:${userName}/${repositoryName}#${issueId}]",
       Some(cut(comment, 200)),
       currentDate)
 
@@ -106,7 +112,7 @@ trait ActivityService {
                                  (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "comment_commit",
-      s"[user:${activityUserName}] commented on commit [commit:${userName}/${repositoryName}@${commitId}]",
+      s"[user:${activityUserName}] 为提交添加备注 [commit:${userName}/${repositoryName}@${commitId}]",
       Some(cut(comment, 200)),
       currentDate
     )
@@ -115,7 +121,7 @@ trait ActivityService {
                                   (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "create_wiki",
-      s"[user:${activityUserName}] created the [repo:${userName}/${repositoryName}] wiki",
+      s"[user:${activityUserName}] 创建了 [repo:${userName}/${repositoryName}] 的Wiki",
       Some(pageName),
       currentDate)
 
@@ -123,23 +129,26 @@ trait ActivityService {
                                 (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "edit_wiki",
-      s"[user:${activityUserName}] edited the [repo:${userName}/${repositoryName}] wiki",
+      s"[user:${activityUserName}] 编辑了 [repo:${userName}/${repositoryName}] 的Wiki",
       Some(pageName + ":" + commitId),
       currentDate)
 
   def recordPushActivity(userName: String, repositoryName: String, activityUserName: String,
-      branchName: String, commits: List[JGitUtil.CommitInfo])(implicit s: Session): Unit =
+      branchName: String, commits: List[JGitUtil.CommitInfo])(implicit s: Session): Unit = {
+    val datetime=new java.util.Date()
     Activities insert Activity(userName, repositoryName, activityUserName,
       "push",
-      s"[user:${activityUserName}] pushed to [branch:${userName}/${repositoryName}#${branchName}] at [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 推送至 [branch:${userName}/${repositoryName}#${branchName}] 于 [repo:${userName}/${repositoryName}]",
       Some(commits.map { commit => commit.id + ":" + commit.shortMessage }.mkString("\n")),
-      currentDate)
+      datetime)
+//    updateLastActivityDateWithChoosenDate(userName,repositoryName,datetime)
+  }
 
   def recordCreateTagActivity(userName: String, repositoryName: String, activityUserName: String, 
       tagName: String, commits: List[JGitUtil.CommitInfo])(implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "create_tag",
-      s"[user:${activityUserName}] created tag [tag:${userName}/${repositoryName}#${tagName}] at [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 创建标记 [tag:${userName}/${repositoryName}#${tagName}] 于 [repo:${userName}/${repositoryName}]",
       None,
       currentDate)
 
@@ -147,7 +156,7 @@ trait ActivityService {
                               tagName: String, commits: List[JGitUtil.CommitInfo])(implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "delete_tag",
-      s"[user:${activityUserName}] deleted tag ${tagName} at [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 删除标记 ${tagName} 于 [repo:${userName}/${repositoryName}]",
       None,
       currentDate)
 
@@ -155,7 +164,7 @@ trait ActivityService {
                                 (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "create_branch",
-      s"[user:${activityUserName}] created branch [branch:${userName}/${repositoryName}#${branchName}] at [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 创建分支 [branch:${userName}/${repositoryName}#${branchName}] 于 [repo:${userName}/${repositoryName}]",
       None,
       currentDate)
 
@@ -163,14 +172,14 @@ trait ActivityService {
                                 (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "delete_branch",
-      s"[user:${activityUserName}] deleted branch ${branchName} at [repo:${userName}/${repositoryName}]",
+      s"[user:${activityUserName}] 删除分支 ${branchName} 于 [repo:${userName}/${repositoryName}]",
       None,
       currentDate)
 
   def recordForkActivity(userName: String, repositoryName: String, activityUserName: String, forkedUserName: String)(implicit s: Session): Unit = 
     Activities insert Activity(userName, repositoryName, activityUserName,
       "fork",
-      s"[user:${activityUserName}] forked [repo:${userName}/${repositoryName}] to [repo:${forkedUserName}/${repositoryName}]",
+      s"[user:${activityUserName}] 复制了 [repo:${userName}/${repositoryName}] 至 [repo:${forkedUserName}/${repositoryName}]",
       None,
       currentDate)
 
@@ -178,7 +187,7 @@ trait ActivityService {
                                (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "open_pullreq",
-      s"[user:${activityUserName}] opened pull request [pullreq:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 创建了合并请求 [pullreq:${userName}/${repositoryName}#${issueId}]",
       Some(title),
       currentDate)
 
@@ -186,7 +195,7 @@ trait ActivityService {
                          (implicit s: Session): Unit =
     Activities insert Activity(userName, repositoryName, activityUserName,
       "merge_pullreq",
-      s"[user:${activityUserName}] merged pull request [pullreq:${userName}/${repositoryName}#${issueId}]",
+      s"[user:${activityUserName}] 处理了合并请求 [pullreq:${userName}/${repositoryName}#${issueId}]",
       Some(message),
       currentDate)
 

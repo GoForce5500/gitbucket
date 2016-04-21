@@ -3,15 +3,15 @@
 <div class="box">
   <ul class="nav nav-tabs nav-stacked side-menu">
     <li@if(active=="profile"){ class="active"}>
-      <a href="@path/@loginAccount.get.userName/_edit">Profile</a>
+      <a href="@path/@loginAccount.get.userName/_edit">帐号</a>
     </li>
     @if(ssh){
     <li@if(active=="ssh"){ class="active"}>
-      <a href="@path/@loginAccount.get.userName/_ssh">SSH Keys</a>
+      <a href="@path/@loginAccount.get.userName/_ssh">SSH 密钥</a>
     </li>
     }
     <li@if(active=="application"){ class="active"}>
-      <a href="@path/@loginAccount.get.userName/_application">Applications</a>
+      <a href="@path/@loginAccount.get.userName/_application">程序</a>
     </li>
   </ul>
 </div>

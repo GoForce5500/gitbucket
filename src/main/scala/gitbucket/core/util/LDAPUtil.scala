@@ -54,7 +54,7 @@ object LDAPUtil {
     ){ conn =>
       findUser(conn, userName, ldapSettings.baseDN, ldapSettings.userNameAttribute, ldapSettings.additionalFilterCondition) match {
         case Some(userDN) => userAuthentication(ldapSettings, userDN, userName, password)
-        case None         => Left("User does not exist.")
+        case None         => Left("用户不存在.")
       }
     }
   }
@@ -85,7 +85,7 @@ object LDAPUtil {
               findFullName(conn, userDN, ldapSettings.userNameAttribute, userName, fullNameAttribute)
             }.getOrElse(userName),
             mailAddress = mailAddress))
-          case None => Left("Can't find mail address.")
+          case None => Left("未找到邮件地址.")
         }
       }
     }

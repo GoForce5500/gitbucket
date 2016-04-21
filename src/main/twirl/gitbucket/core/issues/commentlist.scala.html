@@ -10,7 +10,7 @@
   <div class="issue-avatar-image">@avatar(issue.get.openedUserName, 48)</div>
   <div class="issue-comment-box">
     <div class="box-header">
-      @user(issue.get.openedUserName, styleClass="username strong") <span class="muted">commented @helper.html.datetimeago(issue.get.registeredDate)</span>
+      @user(issue.get.openedUserName, styleClass="username strong") <span class="muted">备注于 @helper.html.datetimeago(issue.get.registeredDate)</span>
       <span class="pull-right">
         @if(hasWritePermission || loginAccount.map(_.userName == issue.get.openedUserName).getOrElse(false)){
           <a href="#" data-issue-id="@issue.get.issueId"><i class="octicon octicon-pencil" aria-label="Edit"></i></a>
@@ -18,7 +18,7 @@
       </span>
     </div>
     <div class="box-content-bottom issue-content markdown-body" id="issueContent">
-      @markdown(issue.get.content getOrElse "No description provided.", repository, false, true, true, hasWritePermission)
+      @markdown(issue.get.content getOrElse "尚无备注.", repository, false, true, true, hasWritePermission)
     </div>
   </div>
 }
@@ -32,9 +32,9 @@
           @user(comment.commentedUserName, styleClass="username strong")
           <span class="muted">
             @if(comment.action == "comment"){
-              commented
+              备注于
             } else {
-              @if(pullreq.isEmpty){ referenced the issue } else { referenced the pull request }
+              @if(pullreq.isEmpty){ 提及此问题于 } else { 提及此合并申请于 }
             }
             @helper.html.datetimeago(comment.registeredDate)
           </span>
@@ -68,11 +68,11 @@
       <div class="small" style="margin-top: 10px; margin-bottom: 10px;">
         <span class="label label-info">Merged</span>
         @avatar(comment.commentedUserName, 20)
-        @user(comment.commentedUserName, styleClass="username strong") merged commit <code>@pullreq.map(_.commitIdTo.substring(0, 7))</code> into
+        @user(comment.commentedUserName, styleClass="username strong") 合并了修改 <code>@pullreq.map(_.commitIdTo.substring(0, 7))</code> into
         @if(pullreq.get.requestUserName == repository.owner){
-          <span class="label label-info monospace">@pullreq.map(_.branch)</span> from <span class="label label-info monospace">@pullreq.map(_.requestBranch)</span>
+          <span class="label label-info monospace">@pullreq.map(_.branch)</span> 自 <span class="label label-info monospace">@pullreq.map(_.requestBranch)</span>
         } else {
-          <span class="label label-info monospace">@pullreq.map(_.userName):@pullreq.map(_.branch)</span> from <span class="label label-info monospace">@pullreq.map(_.requestUserName):@pullreq.map(_.requestBranch)</span>
+          <span class="label label-info monospace">@pullreq.map(_.userName):@pullreq.map(_.branch)</span> 自 <span class="label label-info monospace">@pullreq.map(_.requestUserName):@pullreq.map(_.requestBranch)</span>
         }
         @helper.html.datetimeago(comment.registeredDate)
       </div>
@@ -82,9 +82,9 @@
         <i class="octicon octicon-circle-slash danger"></i>
         @avatar(comment.commentedUserName, 20)
         @if(issue.isDefined && issue.get.isPullRequest){
-          @user(comment.commentedUserName, styleClass="username strong") closed the pull request @helper.html.datetimeago(comment.registeredDate)
+          @user(comment.commentedUserName, styleClass="username strong") 关闭了合并请求 @helper.html.datetimeago(comment.registeredDate)
         } else {
-          @user(comment.commentedUserName, styleClass="username strong") closed the issue @helper.html.datetimeago(comment.registeredDate)
+          @user(comment.commentedUserName, styleClass="username strong") 关闭了问题 @helper.html.datetimeago(comment.registeredDate)
         }
       </div>
     }
@@ -92,14 +92,14 @@
       <div class="issue-comment-action issue-reopened">
         <i class="octicon octicon-primitive-dot"></i>
         @avatar(comment.commentedUserName, 20)
-        @user(comment.commentedUserName, styleClass="username strong") reopened the issue @helper.html.datetimeago(comment.registeredDate)
+        @user(comment.commentedUserName, styleClass="username strong") 开放了问题 @helper.html.datetimeago(comment.registeredDate)
       </div>
     }
     @if(comment.action == "delete_branch"){
       <div class="issue-comment-action">
         <span class="label">Deleted</span>
         @avatar(comment.commentedUserName, 20)
-        @user(comment.commentedUserName, styleClass="username strong") deleted the <span class="label label-info monospace">@pullreq.map(_.requestBranch)</span> branch @helper.html.datetimeago(comment.registeredDate)
+        @user(comment.commentedUserName, styleClass="username strong") 删除了 <span class="label label-info monospace">@pullreq.map(_.requestBranch)</span> 分支 @helper.html.datetimeago(comment.registeredDate)
       </div>
     }
   }
@@ -131,7 +131,7 @@ $(function(){
     return false;
   });
   $('.issue-comment-box i.octicon-x').click(function(){
-    if(confirm('Are you sure you want to delete this?')) {
+    if(confirm('您确定要删除?')) {
       var id = $(this).closest('a').data('comment-id');
       $.post('@url(repository)/issue_comments/delete/' + id,
       function(data){
@@ -159,7 +159,7 @@ $(function(){
     return false;
   });
   $(document).on('click', '.commit-comment-box i.octicon-x', function(){
-    if(confirm('Are you sure you want to delete this?')) {
+    if(confirm('您确定要删除?')) {
       var id = $(this).closest('a').data('comment-id');
       $.post('@url(repository)/commit_comments/delete/' + id,
       function(data){

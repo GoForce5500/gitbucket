@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <title>@title</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="icon" href="@assets/common/images/gitbucket.png" type="image/vnd.microsoft.icon" />
+    <link rel="icon" href="@assets/common/images/daizhige.jpg" type="image/vnd.microsoft.icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="@assets/vendors/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="@assets/vendors/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -49,42 +49,39 @@
             </button>
             <a class="brand" href="@path/">
               <img src="@assets/common/images/gitbucket.png" style="width: 24px; height: 24px;"/>GitBucket
-              @defining(AutoUpdate.getCurrentVersion){ version =>
-                <span class="header-version">@version.majorVersion.@version.minorVersion</span>
-              }
-
             </a>
             @repository.map { repository =>
-              <input type="text" name="query" style="width: 200px; margin-top: 5px; margin-bottom: 0px;" placeholder="Search this repository"/>
+              <input type="text" name="query" style="width: 200px; margin-top: 5px; margin-bottom: 0px;" placeholder="在此资料库中查询"/>
               <input type="hidden" name="owner" value="@repository.owner"/>
               <input type="hidden" name="repository" value="@repository.name"/>
             }
+              <a href="@path/repositorys" class="global-header-menu" onclick="showRepo()">资料库列表</a>
             @if(loginAccount.isDefined){
-              <a href="@path/dashboard/pulls" class="global-header-menu">Pull requests</a>
-              <a href="@path/dashboard/issues" class="global-header-menu">Issues</a>
+              <a href="@path/dashboard/pulls" class="global-header-menu">合并请求</a>
+              <a href="@path/dashboard/issues" class="global-header-menu">问题</a>
             }
             <div class="nav-collapse collapse pull-right header-menu">
               @if(loginAccount.isDefined){
                 <div class="btn-group" style="margin-top: 0px;">
                   <a class="dropdown-toggle menu" data-toggle="dropdown" href="#"><i class="octicon octicon-plus" style="font-size: 20px; vertical-align: middle;height:20px !important;"></i><span class="caret" style="vertical-align: middle;"></span></a>
                   <ul class="dropdown-menu pull-right">
-                    <li><a href="@path/new">New repository</a></li>
-                    <li><a href="@path/groups/new">New group</a></li>
+                    <li><a href="@path/new">新资料库</a></li>
+                    <li><a href="@path/groups/new">新群组</a></li>
                   </ul>
                 </div>
                 <div class="btn-group" style="margin-top: 0px;">
-                  <a class="dropdown-toggle menu" data-toggle="dropdown" href="#" data-toggle="tooltip" data-placement="bottom" title="Signed is as @loginAccount.get.userName">@avatar(loginAccount.get.userName, 16)<span class="caret" style="vertical-align: middle;"></span></a>
+                  <a class="dropdown-toggle menu" data-toggle="dropdown" href="#" data-toggle="tooltip" data-placement="bottom" title="注册为 @loginAccount.get.userName">@avatar(loginAccount.get.userName, 16)<span class="caret" style="vertical-align: middle;"></span></a>
                   <ul class="dropdown-menu pull-right">
-                    <li><a href="@url(loginAccount.get.userName)">Your profile</a></li>
-                    <li><a href="@url(loginAccount.get.userName)/_edit">Account settings</a></li>
+                    <li><a href="@url(loginAccount.get.userName)">您的帐号资料</a></li>
+                    <li><a href="@url(loginAccount.get.userName)/_edit">帐号设置</a></li>
                     @if(loginAccount.get.isAdmin){
-                      <li><a href="@path/admin/users">System administration</a></li>
+                      <li><a href="@path/admin/users">系统管理</a></li>
                     }
-                    <li><a href="@path/signout">Sign out</a></li>
+                    <li><a href="@path/signout">注销</a></li>
                   </ul>
                 </div>
               } else {
-                <a href="@path/signin?redirect=@urlEncode(currentPath)" class="btn" id="signin">Sign in</a>
+                <a href="@path/signin?redirect=@urlEncode(currentPath)" class="btn" id="signin">登录</a>
               }
             </div><!--/.nav-collapse -->
           </div>
@@ -98,6 +95,9 @@
           return $.trim($(this).find('input[name=query]').val()) != '';
         });
       });
+      function showRepo(){
+        $.get("@path/repositorys",{},function(data){$.modal(data,{"opacity":30,"overlayClose":true})})
+      }
     </script>
     @PluginRegistry().getJavaScript(request.getRequestURI).map { script =>
       <script>

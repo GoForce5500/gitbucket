@@ -32,41 +32,41 @@ trait UserManagementControllerBase extends AccountManagementControllerBase {
                            members: String, clearImage: Boolean, isRemoved: Boolean)
 
   val newUserForm = mapping(
-    "userName"    -> trim(label("Username"     ,text(required, maxlength(100), identifier, uniqueUserName))),
-    "password"    -> trim(label("Password"     ,text(required, maxlength(20)))),
-    "fullName"    -> trim(label("Full Name"    ,text(required, maxlength(100)))),
-    "mailAddress" -> trim(label("Mail Address" ,text(required, maxlength(100), uniqueMailAddress()))),
-    "isAdmin"     -> trim(label("User Type"    ,boolean())),
+    "userName"    -> trim(label("用户名"     ,text(required, maxlength(100), identifier, uniqueUserName))),
+    "password"    -> trim(label("密码"     ,text(required, maxlength(20)))),
+    "fullName"    -> trim(label("全名"    ,text(required, maxlength(100)))),
+    "mailAddress" -> trim(label("邮件地址" ,text(required, maxlength(100), uniqueMailAddress()))),
+    "isAdmin"     -> trim(label("用户类型"    ,boolean())),
     "url"         -> trim(label("URL"          ,optional(text(maxlength(200))))),
-    "fileId"      -> trim(label("File ID"      ,optional(text())))
+    "fileId"      -> trim(label("文件ID"      ,optional(text())))
   )(NewUserForm.apply)
 
   val editUserForm = mapping(
-    "userName"    -> trim(label("Username"     ,text(required, maxlength(100), identifier))),
-    "password"    -> trim(label("Password"     ,optional(text(maxlength(20))))),
-    "fullName"    -> trim(label("Full Name"    ,text(required, maxlength(100)))),
-    "mailAddress" -> trim(label("Mail Address" ,text(required, maxlength(100), uniqueMailAddress("userName")))),
-    "isAdmin"     -> trim(label("User Type"    ,boolean())),
+    "userName"    -> trim(label("用户名"     ,text(required, maxlength(100), identifier))),
+    "password"    -> trim(label("密码"     ,optional(text(maxlength(20))))),
+    "fullName"    -> trim(label("全名"    ,text(required, maxlength(100)))),
+    "mailAddress" -> trim(label("邮件地址" ,text(required, maxlength(100), uniqueMailAddress("userName")))),
+    "isAdmin"     -> trim(label("用户类型"    ,boolean())),
     "url"         -> trim(label("URL"          ,optional(text(maxlength(200))))),
-    "fileId"      -> trim(label("File ID"      ,optional(text()))),
-    "clearImage"  -> trim(label("Clear image"  ,boolean())),
-    "removed"     -> trim(label("Disable"      ,boolean(disableByNotYourself("userName"))))
+    "fileId"      -> trim(label("文件ID"      ,optional(text()))),
+    "clearImage"  -> trim(label("清除图像"  ,boolean())),
+    "removed"     -> trim(label("禁用"      ,boolean(disableByNotYourself("userName"))))
   )(EditUserForm.apply)
 
   val newGroupForm = mapping(
-    "groupName" -> trim(label("Group name" ,text(required, maxlength(100), identifier, uniqueUserName))),
+    "groupName" -> trim(label("群组名" ,text(required, maxlength(100), identifier, uniqueUserName))),
     "url"       -> trim(label("URL"        ,optional(text(maxlength(200))))),
-    "fileId"    -> trim(label("File ID"    ,optional(text()))),
-    "members"   -> trim(label("Members"    ,text(required, members)))
+    "fileId"    -> trim(label("文件ID"    ,optional(text()))),
+    "members"   -> trim(label("成员"    ,text(required, members)))
   )(NewGroupForm.apply)
 
   val editGroupForm = mapping(
-    "groupName"  -> trim(label("Group name"  ,text(required, maxlength(100), identifier))),
+    "groupName"  -> trim(label("群组名"  ,text(required, maxlength(100), identifier))),
     "url"        -> trim(label("URL"         ,optional(text(maxlength(200))))),
-    "fileId"     -> trim(label("File ID"     ,optional(text()))),
-    "members"    -> trim(label("Members"     ,text(required, members))),
-    "clearImage" -> trim(label("Clear image" ,boolean())),
-    "removed"    -> trim(label("Disable"     ,boolean()))
+    "fileId"     -> trim(label("文件ID"     ,optional(text()))),
+    "members"    -> trim(label("成员"     ,text(required, members))),
+    "clearImage" -> trim(label("清除图像" ,boolean())),
+    "removed"    -> trim(label("禁用"     ,boolean()))
   )(EditGroupForm.apply)
 
   get("/admin/users")(adminOnly {
@@ -187,7 +187,7 @@ trait UserManagementControllerBase extends AccountManagementControllerBase {
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       if(value.split(",").exists {
         _.split(":") match { case Array(userName, isManager) => isManager.toBoolean }
-      }) None else Some("Must select one manager at least.")
+      }) None else Some("请至少选择一位成员.")
     }
   }
 
@@ -195,7 +195,7 @@ trait UserManagementControllerBase extends AccountManagementControllerBase {
     override def validate(name: String, value: String, messages: Messages): Option[String] = {
       params.get(paramName).flatMap { userName =>
         if(userName == context.loginAccount.get.userName && params.get("removed") == Some("true"))
-          Some("You can't disable your account yourself")
+          Some("您不能禁用自己的帐号")
         else
           None
       }

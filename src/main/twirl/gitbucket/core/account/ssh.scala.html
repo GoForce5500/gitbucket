@@ -2,7 +2,7 @@
 @import gitbucket.core.ssh.SshUtil
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main("SSH Keys"){
+@html.main("SSH 密钥"){
 <div class="container">
   <div class="row-fluid">
     <div class="span3">
@@ -10,35 +10,35 @@
     </div>
     <div class="span9">
       <div class="box">
-        <div class="box-header">SSH Keys</div>
+        <div class="box-header">SSH 密钥</div>
         <div class="box-content-bottom">
           @if(sshKeys.isEmpty){
-            No keys
+            尚无密钥
           }
           @sshKeys.zipWithIndex.map { case (key, i) =>
             @if(i != 0){
               <hr>
             }
-            <strong>@key.title</strong> (@SshUtil.fingerPrint(key.publicKey).getOrElse("Key is invalid."))
-            <a href="@path/@account.userName/_ssh/delete/@key.sshKeyId" class="btn btn-mini btn-danger pull-right">Delete</a>
+            <strong>@key.title</strong> (@SshUtil.fingerPrint(key.publicKey).getOrElse("密钥非法."))
+            <a href="@path/@account.userName/_ssh/delete/@key.sshKeyId" class="btn btn-mini btn-danger pull-right">删除</a>
           }
         </div>
       </div>
       <form method="POST" action="@path/@account.userName/_ssh" validate="true">
         <div class="box">
-          <div class="box-header">Add an SSH Key</div>
+          <div class="box-header">增加新密钥</div>
           <div class="box-content-bottom">
             <fieldset>
-              <label for="title" class="strong">Title</label>
+              <label for="title" class="strong">标题</label>
               <div><span id="error-title" class="error"></span></div>
               <input type="text" name="title" id="title" style="width: 400px;"/>
             </fieldset>
             <fieldset>
-              <label for="publicKey" class="strong">Key</label>
+              <label for="publicKey" class="strong">公钥</label>
               <div><span id="error-publicKey" class="error"></span></div>
               <textarea name="publicKey" id="publicKey" style="width: 600px; height: 250px;"></textarea>
             </fieldset>
-            <input type="submit" class="btn btn-success" value="Add"/>
+            <input type="submit" class="btn btn-success" value="增加"/>
           </div>
         </div>
       </form>

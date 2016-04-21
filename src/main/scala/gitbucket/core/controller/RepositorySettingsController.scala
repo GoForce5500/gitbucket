@@ -30,17 +30,17 @@ trait RepositorySettingsControllerBase extends ControllerBase {
   case class OptionsForm(repositoryName: String, description: Option[String], defaultBranch: String, isPrivate: Boolean)
   
   val optionsForm = mapping(
-    "repositoryName" -> trim(label("Description"    , text(required, maxlength(40), identifier, renameRepositoryName))),
-    "description"    -> trim(label("Description"    , optional(text()))),
-    "defaultBranch"  -> trim(label("Default Branch" , text(required, maxlength(100)))),
-    "isPrivate"      -> trim(label("Repository Type", boolean()))
+    "repositoryName" -> trim(label("资料库名"    , text(required, maxlength(40), identifier, renameRepositoryName))),
+    "description"    -> trim(label("简介"    , optional(text()))),
+    "defaultBranch"  -> trim(label("默认分支" , text(required, maxlength(100)))),
+    "isPrivate"      -> trim(label("资料库类型", boolean()))
   )(OptionsForm.apply)
 
   // for collaborator addition
   case class CollaboratorForm(userName: String)
 
   val collaboratorForm = mapping(
-    "userName" -> trim(label("Username", text(required, collaborator)))
+    "userName" -> trim(label("用户名", text(required, collaborator)))
   )(CollaboratorForm.apply)
 
   // for web hook url addition
@@ -55,7 +55,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
   case class TransferOwnerShipForm(newOwner: String)
 
   val transferForm = mapping(
-    "newOwner" -> trim(label("New owner", text(required, transferUser)))
+    "newOwner" -> trim(label("新所有者", text(required, transferUser)))
   )(TransferOwnerShipForm.apply)
 
   /**
@@ -103,7 +103,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
     using(Git.open(getRepositoryDir(repository.owner, form.repositoryName))) { git =>
       git.getRepository.updateRef(Constants.HEAD, true).link(Constants.R_HEADS + defaultBranch)
     }
-    flash += "info" -> "Repository settings has been updated."
+    flash += "info" -> "资料库设置已被更新."
     redirect(s"/${repository.owner}/${form.repositoryName}/settings/options")
   })
   
@@ -157,7 +157,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
    */
   post("/:owner/:repository/settings/hooks/new", webHookForm(false))(ownerOnly { (form, repository) =>
     addWebHook(repository.owner, repository.name, form.url, form.events)
-    flash += "info" -> s"Webhook ${form.url} created"
+    flash += "info" -> s"操作监听 ${form.url} 成功创建"
     redirect(s"/${repository.owner}/${repository.name}/settings/hooks")
   })
 
@@ -166,7 +166,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
    */
   get("/:owner/:repository/settings/hooks/delete")(ownerOnly { repository =>
     deleteWebHook(repository.owner, repository.name, params("url"))
-    flash += "info" -> s"Webhook ${params("url")} deleted"
+    flash += "info" -> s"操作监听 ${params("url")} 成功删除"
     redirect(s"/${repository.owner}/${repository.name}/settings/hooks")
   })
 
@@ -235,7 +235,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
    */
   post("/:owner/:repository/settings/hooks/edit/:url", webHookForm(true))(ownerOnly { (form, repository) =>
     updateWebHook(repository.owner, repository.name, form.url, form.events)
-    flash += "info" -> s"webhook ${form.url} updated"
+    flash += "info" -> s"操作监听 ${form.url} 成功更新"
     redirect(s"/${repository.owner}/${repository.name}/settings/hooks")
   })
 
@@ -289,9 +289,9 @@ trait RepositorySettingsControllerBase extends ControllerBase {
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       if(getWebHook(params("owner"), params("repository"), value).isDefined != needExists){
         Some(if(needExists){
-          "URL had not been registered yet."
+          "URL 尚未被注册."
         } else {
-          "URL had been registered already."
+          "URL 已被注册."
         })
       } else {
         None
@@ -317,11 +317,11 @@ trait RepositorySettingsControllerBase extends ControllerBase {
   private def collaborator: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       getAccountByUserName(value) match {
-        case None => Some("User does not exist.")
+        case None => Some("用户不存在.")
         case Some(x) if(x.isGroupAccount)
-                  => Some("User does not exist.")
+                  => Some("用户不存在.")
         case Some(x) if(x.userName == params("owner") || getCollaborators(params("owner"), params("repository")).contains(x.userName))
-                  => Some("User can access this repository already.")
+                  => Some("用户已经能够访问此资料库.")
         case _    => None
       }
   }
@@ -333,7 +333,7 @@ trait RepositorySettingsControllerBase extends ControllerBase {
     override def validate(name: String, value: String, params: Map[String, String], messages: Messages): Option[String] =
       params.get("repository").filter(_ != value).flatMap { _ =>
         params.get("owner").flatMap { userName =>
-          getRepositoryNamesOfUser(userName).find(_ == value).map(_ => "Repository already exists.")
+          getRepositoryNamesOfUser(userName).find(_ == value).map(_ => "资料库已存在.")
         }
       }
   }
@@ -344,12 +344,12 @@ trait RepositorySettingsControllerBase extends ControllerBase {
   private def transferUser: Constraint = new Constraint(){
     override def validate(name: String, value: String, messages: Messages): Option[String] =
       getAccountByUserName(value) match {
-        case None    => Some("User does not exist.")
+        case None    => Some("用户不存在.")
         case Some(x) => if(x.userName == params("owner")){
-          Some("This is current repository owner.")
+          Some("所选用户为当前的资料库所有者.")
         } else {
           params.get("repository").flatMap { repositoryName =>
-            getRepositoryNamesOfUser(x.userName).find(_ == repositoryName).map{ _ => "User already has same repository." }
+            getRepositoryNamesOfUser(x.userName).find(_ == repositoryName).map{ _ => "用户已经有了同样的资料库." }
           }
         }
       }

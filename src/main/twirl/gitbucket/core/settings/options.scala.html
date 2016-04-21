@@ -7,22 +7,22 @@
       @helper.html.information(info)
       <form id="form" method="post" action="@url(repository)/settings/options" validate="true">
         <div class="box">
-          <div class="box-header">Settings</div>
+          <div class="box-header">设置</div>
           <div class="box-content-bottom">
             <fieldset>
-              <label for="repositoryName" class="strong">Repository Name:</label>
+              <label for="repositoryName" class="strong">资料库名:</label>
               <input type="text" name="repositoryName" id="repositoryName" value="@repository.name"/>
               <span id="error-repositoryName" class="error"></span>
             </fieldset>
             <fieldset class="margin">
-              <label for="description" class="strong">Description:</label>
+              <label for="description" class="strong">简介:</label>
               <input type="text" name="description" id="description" style="width: 600px;" value="@repository.repository.description"/>
             </fieldset>
             <fieldset class="margin">
-              <label for="defaultBranch" class="strong">Default Branch:</label>
+              <label for="defaultBranch" class="strong">默认分支:</label>
               <select name="defaultBranch" id="defaultBranch"@if(repository.branchList.isEmpty){ disabled}>
                 @if(repository.branchList.isEmpty){
-                  <option value="none" selected>No Branch</option>
+                  <option value="none" selected>尚无分支</option>
                 } else {
                   @repository.branchList.map { branch =>
                     <option@if(branch==repository.repository.defaultBranch){ selected}>@branch</option>
@@ -34,27 +34,27 @@
               }
               <span class="error" id="error-defaultBranch"></span>
             </fieldset>
-            <fieldset class="margin">
+            <fieldset class="margin" style="display: none">
               <label class="radio">
                 <input type="radio" name="isPrivate" value="false"
                   @if(!repository.repository.isPrivate              ){ checked  }
                   @if(repository.repository.parentUserName.isDefined){ disabled }
                 >
-                <span class="strong">Public</span><br>
+                <span class="strong">公开的</span><br>
                 <div>
-                  <span>All users and guests can read this repository.</span>
+                  <span>所有用户和访客均能访问此资料库.</span>
                 </div>
               </label>
             </fieldset>
-            <fieldset>
+            <fieldset style="display: none">
               <label class="radio">
                 <input type="radio" name="isPrivate" value="true"
                   @if(repository.repository.isPrivate               ){ checked  }
                   @if(repository.repository.parentUserName.isDefined){ disabled }
                 >
-                <span class="strong">Private</span><br>
+                <span class="strong">私有的</span><br>
                 <div>
-                  <span>Only collaborators can read this repository.</span>
+                  <span>只有合作者能访问此资料库.</span>
                 </div>
               </label>
             </fieldset>
@@ -92,7 +92,7 @@
         </div>
         *@
         <div class="align-right" style="margin-top: 20px;">
-          <input type="submit" class="btn btn-success" value="Apply changes"/>
+          <input type="submit" class="btn btn-success" value="确认修改"/>
         </div>
       </form>
     }

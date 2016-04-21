@@ -16,7 +16,7 @@
             @if(account.url.isDefined){
               <div><i class="octicon octicon-home"></i> <a href="@account.url">@account.url</a></div>
             }
-            <div><i class="octicon octicon-clock"></i> <span class="muted">Joined on</span> @date(account.registeredDate)</div>
+            <div><i class="octicon octicon-clock"></i> <span class="muted">加入于</span> @date(account.registeredDate)</div>
           </div>
           @if(groupNames.nonEmpty){
             <div>
@@ -30,23 +30,23 @@
         </div>
         <div class="span8">
           <ul class="nav nav-tabs" style="margin-bottom: 5px;">
-            <li@if(active == "repositories"){ class="active"}><a href="@url(account.userName)?tab=repositories">Repositories</a></li>
+            <li@if(active == "repositories"){ class="active"}><a href="@url(account.userName)?tab=repositories">资料库</a></li>
             @if(account.isGroupAccount){
-              <li@if(active == "members"){ class="active"}><a href="@url(account.userName)?tab=members">Members</a></li>
+              <li@if(active == "members"){ class="active"}><a href="@url(account.userName)?tab=members">成员</a></li>
             } else {
-              <li@if(active == "activity"){ class="active"}><a href="@url(account.userName)?tab=activity">Public Activity</a></li>
+              <li@if(active == "activity"){ class="active"}><a href="@url(account.userName)?tab=activity">活动记录</a></li>
             }
             @if(loginAccount.isDefined && loginAccount.get.userName == account.userName){
               <li class="pull-right">
                 <div class="button-group">
-                  <a href="@url(account.userName)/_edit" class="btn">Edit Your Profile</a>
+                  <a href="@url(account.userName)/_edit" class="btn">编辑帐号</a>
                 </div>
               </li>
             }
             @if(loginAccount.isDefined && account.isGroupAccount && isGroupManager){
               <li class="pull-right">
                 <div class="button-group">
-                  <a href="@url(account.userName)/_editgroup" class="btn">Edit Group</a>
+                  <a href="@url(account.userName)/_editgroup" class="btn">编辑群组</a>
                 </div>
               </li>
             }

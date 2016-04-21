@@ -16,7 +16,7 @@
       <tr>
         <th class="box-header">
           <div class="pull-right align-right">
-            <a href="@url(repository)/tree/@commit.id" class="btn btn-small">Browse code</a>
+            <a href="@url(repository)/tree/@commit.id" class="btn btn-small">浏览内容</a>
           </div>
           <div class="commit-log">@link(commit.summary, repository)</div>
           @if(commit.description.isDefined){
@@ -70,13 +70,13 @@
             <div class="author">
               @avatar(commit, 20)
               <span>@user(commit.authorName, commit.authorEmailAddress, "username strong")</span>
-              <span class="muted">authored @helper.html.datetimeago(commit.authorTime)</span>
+              <span class="muted">编纂于 @helper.html.datetimeago(commit.authorTime)</span>
             </div>
             @if(commit.isDifferentFromAuthor) {
             <div class="committer">
               <span class="octicon octicon-arrow-right"></span>
               <span>@user(commit.committerName, commit.committerEmailAddress, "username strong")</span>
-              <span class="muted"> committed @helper.html.datetimeago(commit.commitTime)</span>
+              <span class="muted"> 提交于 @helper.html.datetimeago(commit.commitTime)</span>
             </div>
             }
           </div>
@@ -85,7 +85,7 @@
     </table>
     @helper.html.diff(diffs, repository, Some(commit.id), oldCommitId, true, None, hasWritePermission, true)
     <label class="checkbox">
-      <input type="checkbox" id="show-notes"> Show line notes below
+      <input type="checkbox" id="show-notes"> 显示备注内容
     </label>
     <div id="comment-list">
       @issues.html.commentlist(None, comments, hasWritePermission, repository, None)

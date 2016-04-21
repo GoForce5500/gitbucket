@@ -12,14 +12,14 @@
       <li>
         <h1 class="wiki-title">@pageName</h1>
         <div class="small">
-          <span class="muted"><strong>@page.committer</strong> edited this page @helper.html.datetimeago(page.time)</span>
+          <span class="muted"><strong>@page.committer</strong> 创建此页于 @helper.html.datetimeago(page.time)</span>
         </div>
       </li>
       <li class="pull-right">
         @if(hasWritePermission){
           <div>
-            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_edit">Edit Page</a>
-            <a class="btn btn-small btn-success" href="@url(repository)/wiki/_new">New Page</a>
+            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_edit">编辑此页</a>
+            <a class="btn btn-small btn-success" href="@url(repository)/wiki/_new">新页面</a>
           </div>
         }
       </li>
@@ -27,7 +27,7 @@
     <div style="width: 200px;" class="pull-right">
       @defining(15){ max =>
         <div class="box-header">
-          <span class="strong">Pages</span> <span class="label">@pages.length</span>
+          <span class="strong">页面列表</span> <span class="label">@pages.length</span>
         </div>
         <div class="box-content-bottom" style="padding: 0px;">
           @pages.zipWithIndex.map { case (page, i) =>
@@ -37,20 +37,20 @@
           }
           @if(pages.size > max){
             <div class="box-content-row show-more">
-              <a href="javascript:void(0);" id="show-more-pages">Show more @{pages.size - max} pages...</a>
+              <a href="javascript:void(0);" id="show-more-pages">展示其余 @{pages.size - max} 页...</a>
             </div>
           }
         </div>
       }
       <div class="small">
-        <strong>Clone this wiki locally</strong>
+        <strong>本地复制此Wiki</strong>
       </div>
       @helper.html.copy("repository-url-copy", httpUrl(repository)){
         <input type="text" value="@httpUrl(repository)" id="repository-url" style="width: 160px;" readonly>
       }
       @if(settings.ssh && loginAccount.isDefined){
         <div class="small">
-          <span class="mute">You can clone <a href="javascript:void(0);" id="repository-url-http">HTTP</a> or <a href="javascript:void(0);" id="repository-url-ssh">SSH</a>.</span>
+          <span class="mute">您能通过 <a href="javascript:void(0);" id="repository-url-http">HTTP</a> 或 <a href="javascript:void(0);" id="repository-url-ssh">SSH</a>复制.</span>
         </div>
       }
     </div>

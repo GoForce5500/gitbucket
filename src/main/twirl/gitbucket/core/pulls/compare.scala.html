@@ -15,7 +15,7 @@
   labels: List[gitbucket.core.model.Label])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"Pull Requests - ${repository.owner}/${repository.name}", Some(repository)){
+@html.main(s"合并请求 - ${repository.owner}/${repository.name}", Some(repository)){
   @html.menu("pulls", repository){
     <div class="pullreq-info">
       <div id="compare-edit">
@@ -42,14 +42,14 @@
         }
       </div>
       <div class="check-conflict" style="display: none;">
-        <img src="@assets/common/images/indicator.gif"/> Checking...
+        <img src="@assets/common/images/indicator.gif"/> 检查中...
       </div>
     </div>
     @if(commits.nonEmpty && loginAccount.isDefined){
       <div style="margin-bottom: 10px; padding: 8px; background-color: #fff9ea" id="create-pull-request" class="box-content">
-        <a href="#" class="btn btn-success" id="show-form">Create pull request</a>
+        <a href="#" class="btn btn-success" id="show-form">创建合并请求</a>
         &nbsp;&nbsp;
-        <span class="muted">Discuss and review the changes in this comparison with others.</span>
+        <span class="muted">与其他人讨论并进行审阅.</span>
       </div>
       <div id="pull-request-form" @*class="box"*@ style="display: none; margin-bottom: 20px;">
         <form method="POST" action="@path/@originRepository.owner/@originRepository.name/pulls/new" validate="true">
@@ -59,7 +59,7 @@
               <div class="box issue-box">
                 <div class="box-content">
                   <span class="error" id="error-title"></span>
-                  <input type="text" name="title" style="width: 690px" placeholder="Title"/>
+                  <input type="text" name="title" style="width: 690px" placeholder="标题"/>
                   @helper.html.preview(
                     repository         = repository,
                     content            = "",
@@ -77,7 +77,7 @@
                   <input type="hidden" name="commitIdFrom" value="@sourceId"/>
                   <input type="hidden" name="commitIdTo" value="@commitId"/>
                   <div class="align-right">
-                    <input type="submit" class="btn btn-success" value="Create pull request"/>
+                    <input type="submit" class="btn btn-success" value="创建合并请求"/>
                   </div>
                 </div>
               </div>
@@ -93,8 +93,8 @@
       <table class="table table-bordered table-hover table-issues">
         <tr>
           <td style="padding: 20px; background-color: #eee; text-align: center;">
-            <h4>There isn't anything to compare.</h4>
-            <span class="strong">@originRepository.owner:@originId</span> and <span class="strong">@forkedRepository.owner:@forkedId</span> are identical.
+            <h4>没有可比较的内容.</h4>
+            <span class="strong">@originRepository.owner:@originId</span> and <span class="strong">@forkedRepository.owner:@forkedId</span> 是一致的.
           </td>
         </tr>
       </table>
@@ -158,7 +158,7 @@
         }
       </div>
       @helper.html.diff(diffs, repository, Some(commitId), Some(sourceId), true, None, false, false)
-      <p>Showing you all comments on commits in this comparison.</p>
+      <p>在此展示所有提交时的备注.</p>
       @issues.html.commentlist(None, comments, false, repository, None)
     }
   }

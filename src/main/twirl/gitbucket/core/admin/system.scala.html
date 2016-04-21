@@ -2,12 +2,12 @@
 @import context._
 @import gitbucket.core.view.helpers._
 @import gitbucket.core.util.Directory._
-@html.main("System Settings"){
+@html.main("系统设置"){
   @menu("system"){
     @helper.html.information(info)
     <form action="@path/admin/system" method="POST" validate="true">
       <div class="box">
-        <div class="box-header">System Settings</div>
+        <div class="box-header">系统设置</div>
         <div class="box-content-bottom">
           <!--====================================================================-->
           <!-- GITBUCKET_HOME -->
@@ -42,49 +42,49 @@
           <!-- Account registration -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Account registration</label>
+          <label class="strong">帐号注册</label>
           <fieldset>
             <label class="radio">
               <input type="radio" name="allowAccountRegistration" value="true"@if(settings.allowAccountRegistration){ checked}>
-              <span class="strong">Allow</span> - Users can create accounts by themselves.
+              <span class="strong">允许</span> - 用户可以自行新建帐号.
             </label>
             <label class="radio">
               <input type="radio" name="allowAccountRegistration" value="false"@if(!settings.allowAccountRegistration){ checked}>
-              <span class="strong">Deny</span> - Only administrators can create accounts.
+              <span class="strong">拒绝</span> - 只有管理员能够建立帐号.
             </label>
           </fieldset>
-          <hr>
-          <label class="strong">Default option to create a new repository</label>
-          <fieldset>
-            <label class="radio">
-              <input type="radio" name="isCreateRepoOptionPublic" value="true"@if(settings.isCreateRepoOptionPublic){ checked}>
-              <span class="strong">Public</span> - All users and guests can read that repository.
-            </label>
-            <label class="radio">
-              <input type="radio" name="isCreateRepoOptionPublic" value="false"@if(!settings.isCreateRepoOptionPublic){ checked}>
-              <span class="strong">Private</span> - Only collaborators can read that repository.
-            </label>
-          </fieldset>
+          @*<hr>*@
+          @*<label class="strong">注册新资料库的选项</label>*@
+          @*<fieldset>*@
+            @*<label class="radio">*@
+              <input type="radio" name="isCreateRepoOptionPublic" value="true" checked="checked" style="display: none" />
+              @*<span class="strong">公开</span> - 所有用户和访客均可访问资料库内容.*@
+            @*</label>*@
+            @*<label class="radio">*@
+              @*<input type="radio" name="isCreateRepoOptionPublic" value="false"@if(!settings.isCreateRepoOptionPublic){ checked}>*@
+              @*<span class="strong">私有</span> - 只有资料库的用户能够访问资料库内容.*@
+            @*</label>*@
+          @*</fieldset>*@
           <!--====================================================================-->
           <!-- Anonymous access -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Anonymous access</label>
+          <label class="strong">匿名访问</label>
           <fieldset>
             <label class="radio">
               <input type="radio" name="allowAnonymousAccess" value="true"@if(settings.allowAnonymousAccess){ checked}>
-              <span class="strong">Allow</span> - Anyone can view public repositories, user/group profiles.
+              <span class="strong">允许</span> - 任何人均可以访问公开的资料库/用户/群组资料.
             </label>
             <label class="radio">
               <input type="radio" name="allowAnonymousAccess" value="false"@if(!settings.allowAnonymousAccess){ checked}>
-              <span class="strong">Deny</span> - Users must authenticate before viewing any information
+              <span class="strong">拒绝</span> - 用户访问任何信息前必须登录
             </label>
           </fieldset>
           <!--====================================================================-->
           <!-- Activity -->
           <!--====================================================================-->
           <hr>
-          <label><span class="strong">Limit of activity logs</span> (Unlimited if it's not specified or zero)</label>
+          <label><span class="strong">活动记录限制</span> (不设置或设置为0代表不限制)</label>
           <div class="controls">
             <input type="text" id="activityLogLimit" name="activityLogLimit" class="input-mini" value="@settings.activityLogLimit"/>
             <span id="error-activityLogLimit" class="error"></span>
@@ -93,27 +93,27 @@
           <!-- Services -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Services</label>
+          <label class="strong">服务</label>
           <fieldset>
             <label class="checkbox">
               <input type="checkbox" name="gravatar"@if(settings.gravatar){ checked}/>
-              Use Gravatar for Profile-Images
+              使用 Gravatar 作为帐号头像
             </label>
           </fieldset>
           <!--====================================================================-->
           <!-- SSH access -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">SSH access</label>
+          <label class="strong">SSH 访问</label>
           <fieldset>
             <label class="checkbox">
               <input type="checkbox" id="ssh" name="ssh"@if(settings.ssh){ checked}/>
-              Enable SSH access to git repository
+              允许 SSH 访问资料库
             </label>
           </fieldset>
           <div class="form-horizontal ssh">
             <div class="control-group">
-              <label class="control-label" for="sshPort">SSH Port</label>
+              <label class="control-label" for="sshPort">SSH 端口</label>
               <div class="controls">
                 <input type="text" id="sshPort" name="sshPort" value="@settings.sshPort"/>
                 <span id="error-sshPort" class="error"></span>
@@ -121,13 +121,13 @@
             </div>
           </div>
           <p class="muted">
-            Base URL is required if SSH access is enabled.
+            若允许 SSH 访问则必须指定 Base URL.
           </p>
           <!--====================================================================-->
           <!-- Authentication -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Authentication</label>
+          <label class="strong">验证</label>
           <fieldset>
             <label class="checkbox">
               <input type="checkbox" id="ldapAuthentication" name="ldapAuthentication"@if(settings.ldap){ checked}/>
@@ -224,18 +224,18 @@
           <!-- Notification email -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Notifications</label>
+          <label class="strong">提醒邮件</label>
           <fieldset>
             <label class="checkbox">
               <input type="checkbox" id="notification" name="notification"@if(settings.notification){ checked}/>
-              Send notifications
+              发送提醒邮件
             </label>
           </fieldset>
           <!--====================================================================-->
           <!-- Communication email -->
           <!--====================================================================-->
           <hr>
-          <label class="strong">Communication</label>
+          <label class="strong">邮件服务配置</label>
           <fieldset>
             <label class="checkbox">
               <input type="checkbox" id="useSMTP" name="useSMTP" @if(settings.useSMTP){ checked}/>
@@ -244,27 +244,27 @@
           </fieldset>
           <div class="form-horizontal useSMTP">
             <div class="control-group">
-              <label class="control-label" for="smtpHost">SMTP Host</label>
+              <label class="control-label" for="smtpHost">SMTP 主机</label>
               <div class="controls">
                 <input type="text" id="smtpHost" name="smtp.host" value="@settings.smtp.map(_.host)"/>
                 <span id="error-smtp_host" class="error"></span>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="smtpPort">SMTP Port</label>
+              <label class="control-label" for="smtpPort">SMTP 端口</label>
               <div class="controls">
                 <input type="text" id="smtpPort" name="smtp.port" class="input-mini" value="@settings.smtp.map(_.port)"/>
                 <span id="error-smtp_port" class="error"></span>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="smtpUser">SMTP User</label>
+              <label class="control-label" for="smtpUser">SMTP 用户</label>
               <div class="controls">
                 <input type="text" id="smtpUser" name="smtp.user" value="@settings.smtp.map(_.user)"/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="smtpPassword">SMTP Password</label>
+              <label class="control-label" for="smtpPassword">SMTP 密码</label>
               <div class="controls">
                 <input type="password" id="smtpPassword" name="smtp.password" value="@settings.smtp.map(_.password)"/>
               </div>
@@ -272,30 +272,30 @@
             <div class="control-group">
               <div class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="smtp.ssl"@if(settings.smtp.flatMap(_.ssl).getOrElse(false)){ checked}/> Enable SSL
+                  <input type="checkbox" name="smtp.ssl"@if(settings.smtp.flatMap(_.ssl).getOrElse(false)){ checked}/> 允许 SSL
                 </label>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="fromAddress">FROM Address</label>
+              <label class="control-label" for="fromAddress">发信人地址</label>
               <div class="controls">
                 <input type="text" id="fromAddress" name="smtp.fromAddress" value="@settings.smtp.map(_.fromAddress)"/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="fromName">FROM Name</label>
+              <label class="control-label" for="fromName">发信人姓名</label>
               <div class="controls">
                 <input type="text" id="fromName" name="smtp.fromName" value="@settings.smtp.map(_.fromName)"/>
               </div>
             </div>
             <p class="muted">
-              Enable notification not only SMTP configuration if you want to send notification email.
+              如果需要发送提醒邮件则必须同时填写上述信息.
             </p>
           </div>
         </div>
       </div>
       <div class="align-right" style="margin-top: 20px;">
-        <input type="submit" class="btn btn-success" value="Apply changes"/>
+        <input type="submit" class="btn btn-success" value="提交修改"/>
       </div>
     </form>
   }

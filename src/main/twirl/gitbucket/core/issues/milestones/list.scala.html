@@ -4,7 +4,7 @@
   hasWritePermission: Boolean)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"Milestones - ${repository.owner}/${repository.name}"){
+@html.main(s"里程碑 - ${repository.owner}/${repository.name}"){
   @html.menu("issues", repository){
     @issues.html.navigation("milestones", hasWritePermission, repository)
     <br>
@@ -14,11 +14,11 @@
           <span class="small">
             <a class="button-link@if(state == "open"){ selected}" href="?state=open">
               <i class="octicon octicon-milestone @(if(state == "open"){"active"})"></i>
-              @milestones.count(_._1.closedDate.isEmpty) Open
+              @milestones.count(_._1.closedDate.isEmpty) 开放
             </a>&nbsp;&nbsp;
             <a class="button-link@if(state == "closed"){ selected}" href="?state=closed">
               <i class="octicon octicon-milestone @(if(state == "closed"){"active"})"></i>
-              @milestones.count(_._1.closedDate.isDefined) Closed
+              @milestones.count(_._1.closedDate.isDefined) 关闭
             </a>
           </span>
         </th>
@@ -34,16 +34,16 @@
                 <a href="@url(repository)/issues?milestone=@milestone.title&state=open" class="milestone-title">@milestone.title</a>
                 <div style="margin-top: 6px">
                   @if(milestone.closedDate.isDefined){
-                    <span class="muted">Closed @helper.html.datetimeago(milestone.closedDate.get)</span>
+                    <span class="muted">关闭于 @helper.html.datetimeago(milestone.closedDate.get)</span>
                   } else {
                     @milestone.dueDate.map { dueDate =>
                       @if(isPast(dueDate)){
-                        <i class="octicon octicon-alert" style="color:#BD2C00;"></i><span class="muted milestone-alert">Due by @date(dueDate)</span>
+                        <i class="octicon octicon-alert" style="color:#BD2C00;"></i><span class="muted milestone-alert">生成于 @date(dueDate)</span>
                       } else {
-                        <span class="muted">Due by @date(dueDate)</span>
+                        <span class="muted">生成于 @date(dueDate)</span>
                       }
                     }.getOrElse {
-                      <span class="muted">No due date</span>
+                      <span class="muted">未生成</span>
                     }
                   }
                 </div>
@@ -57,18 +57,18 @@
                     } else {
                       @((closedCount.toDouble / (openCount + closedCount).toDouble * 100).toInt)%
                     } <span class="muted">complete</span> &nbsp;&nbsp;
-                    @openCount <span class="muted">open</span> &nbsp;&nbsp;
-                    @closedCount <span class="muted">closed</span>
+                    @openCount <span class="muted">开放</span> &nbsp;&nbsp;
+                    @closedCount <span class="muted">关闭</span>
                   </div>
                   <div class="milestone-menu">
                     @if(hasWritePermission){
-                      <a href="@url(repository)/issues/milestones/@milestone.milestoneId/edit">Edit</a> &nbsp;&nbsp;
+                      <a href="@url(repository)/issues/milestones/@milestone.milestoneId/edit">修改</a> &nbsp;&nbsp;
                       @if(milestone.closedDate.isDefined){
-                        <a href="@url(repository)/issues/milestones/@milestone.milestoneId/open">Open</a> &nbsp;&nbsp;
+                        <a href="@url(repository)/issues/milestones/@milestone.milestoneId/open">开放</a> &nbsp;&nbsp;
                       } else {
-                        <a href="@url(repository)/issues/milestones/@milestone.milestoneId/close">Close</a> &nbsp;&nbsp;
+                        <a href="@url(repository)/issues/milestones/@milestone.milestoneId/close">关闭</a> &nbsp;&nbsp;
                       }
-                      <a href="@url(repository)/issues/milestones/@milestone.milestoneId/delete" class="delete">Delete</a>
+                      <a href="@url(repository)/issues/milestones/@milestone.milestoneId/delete" class="delete">删除</a>
                     }
                   </div>
                 </div>
@@ -85,9 +85,9 @@
         @if(milestones.isEmpty){
         <tr>
           <td style="padding: 20px; background-color: #eee; text-align: center;">
-            No milestones to show.
+            尚无里程碑.
             @if(hasWritePermission){
-              <a href="@url(repository)/issues/milestones/new">Create a new milestone.</a>
+              <a href="@url(repository)/issues/milestones/new">创建新的里程碑.</a>
             }
           </td>
         </tr>
@@ -99,7 +99,7 @@
 <script>
 $(function(){
   $('a.delete').click(function(){
-    return confirm('Once you delete this milestone, there is no going back.\nAre you sure?');
+    return confirm('您一旦删除里程碑将不能恢复.\n确认删除?');
   });
 });
 </script>

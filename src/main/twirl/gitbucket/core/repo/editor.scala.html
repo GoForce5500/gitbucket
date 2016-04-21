@@ -5,7 +5,7 @@
   content: gitbucket.core.util.JGitUtil.ContentInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(if(fileName.isEmpty) "New File" else s"Editing ${fileName.get} at ${branch} - ${repository.owner}/${repository.name}", Some(repository)) {
+@html.main(if(fileName.isEmpty) "新文件" else s"编辑 ${fileName.get} 自 ${branch} - ${repository.owner}/${repository.name}", Some(repository)) {
   @html.menu("code", repository){
     <form method="POST" action="@url(repository)/@if(fileName.isEmpty){create}else{update}" validate="true">
       <span class="error" id="error-newFileName"></span>
@@ -14,7 +14,7 @@
         @pathList.zipWithIndex.map { case (section, i) =>
           <a href="@url(repository)/tree/@encodeRefName(branch)/@pathList.take(i + 1).mkString("/")">@section</a> /
         }
-        <input type="text" name="newFileName" id="newFileName" placeholder="Name your file..." value="@fileName"/>
+        <input type="text" name="newFileName" id="newFileName" placeholder="命名您的文件..." value="@fileName"/>
         <input type="hidden" name="oldFileName" id="oldFileName" value="@fileName"/>
         <input type="hidden" name="branch" id="branch" value="@branch"/>
         <input type="hidden" name="path" id="path" value="@pathList.mkString("/")"/>
@@ -25,14 +25,14 @@
             <div class="pull-right">
               <select id="wrap" class="input-medium" style="margin-bottom: 0px; height: 26px; padding: 0px;">
                 <optgroup label="Line Wrap Mode">
-                  <option value="false">No wrap</option>
-                  <option value="true">Soft wrap</option>
+                  <option value="false">不折行</option>
+                  <option value="true">软折行</option>
                 </optgroup>
               </select>
             </div>
             <div class="btn-group" data-toggle="buttons-radio">
               <input type="button" id="btn-code" class="btn btn-default btn-small active" value="Code">
-              <input type="button" id="btn-preview" class="btn btn-default btn-small" value="Preview">
+              <input type="button" id="btn-preview" class="btn btn-default btn-small" value="预览">
             </div>
           </th>
         </tr>
@@ -47,18 +47,18 @@
         <div class="box issue-comment-box">
         <div class="box-content">
           <div>
-            <strong>Commit changes</strong>
+            <strong>提交修改</strong>
           </div>
           <div>
             <input type="text" name="message" style="width: 98%;"/>
           </div>
           <div style="text-align: right;">
             @if(fileName.isEmpty){
-              <a href="@url(repository)/tree/@encodeRefName(branch)/@{pathList.mkString("/")}" class="btn btn-danger">Cancel</a>
+              <a href="@url(repository)/tree/@encodeRefName(branch)/@{pathList.mkString("/")}" class="btn btn-danger">取消</a>
             } else {
-              <a href="@url(repository)/blob/@encodeRefName(branch)/@{(pathList ++ Seq(fileName.get)).mkString("/")}" class="btn btn-danger">Cancel</a>
+              <a href="@url(repository)/blob/@encodeRefName(branch)/@{(pathList ++ Seq(fileName.get)).mkString("/")}" class="btn btn-danger">取消</a>
             }
-            <input type="submit" id="commit" class="btn btn-success" value="Commit changes" disabled="true"/>
+            <input type="submit" id="commit" class="btn btn-success" value="提交修改" disabled="true"/>
             <input type="hidden" id="charset" name="charset" value="@content.charset"/>
             <input type="hidden" id="lineSeparator" name="lineSeparator" value="@content.lineSeparator"/>
             <input type="hidden" id="content" name="content" value=""/>
@@ -122,7 +122,7 @@ $(function(){
 
     @if(fileName.map(isRenderable _).getOrElse(false)) {
       // update preview
-      $('#preview').html('<img src="@assets/common/images/indicator.gif"> Previewing...');
+      $('#preview').html('<img src="@assets/common/images/indicator.gif"> 生成预览...');
       $.post('@url(repository)/_preview', {
         content        : editor.getValue(),
         enableWikiLink : false,

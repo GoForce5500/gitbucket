@@ -3,25 +3,25 @@
   repository: gitbucket.core.service.RepositoryService.RepositoryInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.view.helpers._
-@html.main(s"${if(pageName.isEmpty) "New Page" else pageName} - ${repository.owner}/${repository.name}", Some(repository)){
+@html.main(s"${if(pageName.isEmpty) "新页面" else pageName} - ${repository.owner}/${repository.name}", Some(repository)){
   @html.menu("wiki", repository){
     <ul class="nav nav-tabs fill-width pull-left">
       <li>
-        <h1 class="wiki-title"><span class="muted">Editing</span> @if(pageName.isEmpty){New Page} else {@pageName}</h1>
+        <h1 class="wiki-title"><span class="muted">编辑中</span> @if(pageName.isEmpty){新页面} else {@pageName}</h1>
       </li>
       <li class="pull-right">
         <div>
           @if(page.isDefined){
-            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_delete" id="delete">Delete Page</a>
-            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_history">Page History</a>
+            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_delete" id="delete">删除页面</a>
+            <a class="btn btn-small" href="@url(repository)/wiki/@urlEncode(pageName)/_history">页面历史</a>
           }
-          <a class="btn btn-small btn-success" href="@url(repository)/wiki/_new">New Page</a>
+          <a class="btn btn-small btn-success" href="@url(repository)/wiki/_new">新页面</a>
         </div>
       </li>
     </ul>
     <form action="@url(repository)/wiki/@if(page.isEmpty){_new} else {_edit}" method="POST" validate="true">
       <span id="error-pageName" class="error"></span>
-      <input type="text" name="pageName" value="@pageName" style="width: 910px; font-weight: bold;" placeholder="Input a page name."/>
+      <input type="text" name="pageName" value="@pageName" style="width: 910px; font-weight: bold;" placeholder="请录入页面名."/>
       @helper.html.preview(
         repository         = repository,
         content            = page.map(_.content).getOrElse(""),
@@ -33,17 +33,17 @@
         styleClass         = "monospace",
         placeholder        = ""
       )
-      <input type="text" name="message" value="" style="width: 910px;" placeholder="Write a small message here explaining this change. (Optional)"/>
+      <input type="text" name="message" value="" style="width: 910px;" placeholder="写些简介介绍这次修改. (可选)"/>
       <input type="hidden" name="currentPageName" value="@pageName"/>
       <input type="hidden" name="id" value="@page.map(_.id)"/>
-      <input type="submit" value="Save" class="btn btn-success">
+      <input type="submit" value="保存" class="btn btn-success">
     </form>
   }
 }
 <script>
 $(function(){
   $('#delete').click(function(){
-    return confirm('Are you sure you want to delete this page?'); 
+    return confirm('您确定要删除本页面?');
   });
 });
 </script>

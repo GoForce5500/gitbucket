@@ -9,6 +9,7 @@ import gitbucket.core.util.Implicits._
 import gitbucket.core.util.{LDAPUtil, Keys, UsersAuthenticator}
 
 import jp.sf.amateras.scalatra.forms._
+import org.json4s.jackson.Json
 
 
 class IndexController extends IndexControllerBase 
@@ -21,8 +22,8 @@ trait IndexControllerBase extends ControllerBase {
   case class SignInForm(userName: String, password: String)
 
   val form = mapping(
-    "userName" -> trim(label("Username", text(required))),
-    "password" -> trim(label("Password", text(required)))
+    "userName" -> trim(label("用户名", text(required))),
+    "password" -> trim(label("密码", text(required)))
   )(SignInForm.apply)
 
   get("/"){
@@ -45,6 +46,32 @@ trait IndexControllerBase extends ControllerBase {
         )
     }
   }
+  get("/repositorys"){
+//    val loginAccount = context.loginAccount
+//    if(loginAccount.isEmpty) {
+//      html.index(getRecentActivities(),
+//        getVisibleRepositories(loginAccount, context.baseUrl, withoutPhysicalInfo = true),
+//        loginAccount.map{ account => getUserRepositories(account.userName, context.baseUrl, withoutPhysicalInfo = true) }.getOrElse(Nil)
+//      )
+//    } else {
+//      val loginUserName = loginAccount.get.userName
+//      val loginUserGroups = getGroupsByUserName(loginUserName)
+//      var visibleOwnerSet : Set[String] = Set(loginUserName)
+//
+//      visibleOwnerSet ++= loginUserGroups
+//
+//      html.index(getRecentActivitiesByOwners(visibleOwnerSet),
+//        getVisibleRepositories(loginAccount, context.baseUrl, withoutPhysicalInfo = true),
+//        loginAccount.map{ account => getUserRepositories(account.userName, context.baseUrl, withoutPhysicalInfo = true) }.getOrElse(Nil)
+//      )
+//    }
+
+    html.repositorys(getAllPublicRepositoriesInfo)
+
+  }
+//  get("/repositorysAsJson"){
+//    OK(Json.toJson(getAllPublicRepositoriesInfo))
+//  }
 
   get("/signin"){
     val redirect = params.get("redirect")

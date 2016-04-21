@@ -29,7 +29,7 @@ trait IssuesControllerBase extends ControllerBase {
   case class IssueStateForm(issueId: Int, content: Option[String])
 
   val issueCreateForm = mapping(
-      "title"            -> trim(label("Title", text(required))),
+      "title"            -> trim(label("标题", text(required))),
       "content"          -> trim(optional(text())),
       "assignedUserName" -> trim(optional(text())),
       "milestoneId"      -> trim(optional(number())),
@@ -37,19 +37,19 @@ trait IssuesControllerBase extends ControllerBase {
     )(IssueCreateForm.apply)
 
   val issueTitleEditForm = mapping(
-    "title" -> trim(label("Title", text(required)))
+    "title" -> trim(label("标题", text(required)))
     )(x => x)
   val issueEditForm = mapping(
     "content" -> trim(optional(text()))
     )(x => x)
 
   val commentForm = mapping(
-      "issueId" -> label("Issue Id", number()),
-      "content" -> trim(label("Comment", text(required)))
+      "issueId" -> label("问题Id", number()),
+      "content" -> trim(label("备注", text(required)))
     )(CommentForm.apply)
 
   val issueStateForm = mapping(
-      "issueId" -> label("Issue Id", number()),
+      "issueId" -> label("问题Id", number()),
       "content" -> trim(optional(text()))
     )(IssueStateForm.apply)
 
@@ -232,7 +232,7 @@ trait IssuesControllerBase extends ControllerBase {
           contentType = formats("json")
           org.json4s.jackson.Serialization.write(
               Map("title"   -> x.title,
-                  "content" -> Markdown.toHtml(x.content getOrElse "No description given.",
+                  "content" -> Markdown.toHtml(x.content getOrElse "未提供简介.",
                       repository, false, true, true, true, isEditable(x.userName, x.repositoryName, x.openedUserName))
               ))
         }

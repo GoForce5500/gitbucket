@@ -3,7 +3,7 @@
 @import gitbucket.core.view.helpers._
 
 @if(activities.isEmpty){
-  No activity
+  没有活动
 } else {
   @activities.map { activity =>
     <div class="block">
@@ -39,19 +39,19 @@
         }
         case "create_wiki" => customActivity(activity, "book"){
           <div class="small activity-message">
-            Created <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${activity.additionalInfo.get}"}>{activity.additionalInfo.get}</a>.
+            创建了 <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${activity.additionalInfo.get}"}>{activity.additionalInfo.get}</a>.
           </div>
         }
         case "edit_wiki" => customActivity(activity, "book"){
           activity.additionalInfo.get.split(":") match {
             case Array(pageName, commitId) =>
               <div class="small activity-message">
-                Edited <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}"}>{pageName}</a>.
-                <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}/_compare/${commitId.substring(0, 7)}^...${commitId.substring(0, 7)}"}>View the diff »</a>
+                编辑 <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}"}>{pageName}</a>.
+                <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}/_compare/${commitId.substring(0, 7)}^...${commitId.substring(0, 7)}"}>查看区别 »</a>
               </div>
             case Array(pageName) =>
               <div class="small activity-message">
-                Edited <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}"}>{pageName}</a>.
+                编辑 <a href={s"${path}/${activity.userName}/${activity.repositoryName}/wiki/${pageName}"}>{pageName}</a>.
               </div>
           }
         }

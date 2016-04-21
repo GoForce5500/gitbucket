@@ -13,8 +13,8 @@
   <div style="overflow: hidden;">
     <div class="pull-right" style="margin-bottom: 10px;">
       <div class="btn-group" data-toggle="buttons-radio">
-        <input type="button" id="btn-unified" class="btn btn-default btn-small active" value="Unified">
-        <input type="button" id="btn-split" class="btn btn-default btn-small" value="Split">
+        <input type="button" id="btn-unified" class="btn btn-default btn-small active" value="统一">
+        <input type="button" id="btn-split" class="btn btn-default btn-small" value="分开">
       </div>
     </div>
     Showing <a href="javascript:void(0);" id="toggle-file-list">@diffs.size changed @plural(diffs.size, "file")</a>
@@ -49,9 +49,9 @@
         @if(diff.changeType == ChangeType.COPY || diff.changeType == ChangeType.RENAME){
           @if(newCommitId.isDefined){
             <div class="pull-right align-right">
-              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="ignore-whitespace" value="1"/>Ignore Space</label>
-              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>Show notes</span></label>
-              <a href="@url(repository)/blob/@newCommitId.get/@diff.newPath" class="btn btn-small" title="View the whole file at version @newCommitId.get.substring(0, 10)" data-toggle="tooltip">View</a>
+              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="ignore-whitespace" value="1"/>忽略空白</label>
+              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>显示备注</span></label>
+              <a href="@url(repository)/blob/@newCommitId.get/@diff.newPath" class="btn btn-small" title="View the whole file at version @newCommitId.get.substring(0, 10)" data-toggle="tooltip">查看</a>
             </div>
           }
           <span class="diffstat">
@@ -61,9 +61,9 @@
         @if(diff.changeType == ChangeType.ADD || diff.changeType == ChangeType.MODIFY){
           @if(newCommitId.isDefined){
             <div class="pull-right align-right">
-              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="ignore-whitespace" value="1"/>Ignore Space</label>
-              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>Show notes</span></label>
-              <a href="@url(repository)/blob/@newCommitId.get/@diff.newPath" class="btn btn-small" title="View the whole file at version @newCommitId.get.substring(0, 10)" data-toggle="tooltip">View</a>
+              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="ignore-whitespace" value="1"/>忽略空白</label>
+              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>显示备注</span></label>
+              <a href="@url(repository)/blob/@newCommitId.get/@diff.newPath" class="btn btn-small" title="View the whole file at version @newCommitId.get.substring(0, 10)" data-toggle="tooltip">查看</a>
             </div>
           }
           <span class="diffstat">
@@ -78,8 +78,8 @@
         @if(diff.changeType == ChangeType.DELETE){
           @if(oldCommitId.isDefined){
             <div class="pull-right align-right">
-              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>Show notes</span></label>
-              <a href="@url(repository)/blob/@oldCommitId.get/@diff.oldPath" class="btn btn-small" title="View the whole file at version @oldCommitId.get.substring(0, 10)" data-toggle="tooltip">View</a>
+              <label class="checkbox" style="display: inline-block;"><input type="checkbox" class="toggle-notes" checked><span>查看备注</span></label>
+              <a href="@url(repository)/blob/@oldCommitId.get/@diff.oldPath" class="btn btn-small" title="View the whole file at version @oldCommitId.get.substring(0, 10)" data-toggle="tooltip">查看</a>
             </div>
           }
           <span class="diffstat">
@@ -91,7 +91,7 @@
     <tr>
       <td style="padding: 0;">
         @if(diff.oldObjectId == diff.newObjectId){
-          <div class="diff-same">File renamed without changes</div>
+          <div class="diff-same">文件仅被重命名,内容未被修改</div>
         } else {
           @if(diff.newContent != None || diff.oldContent != None){
             <div id="diffText-@i" class="diffText"></div>
@@ -104,22 +104,22 @@
                 <div class="diff-image-frame diff-old"><img src="@url(repository)/blob/@oldCommitId.get/@diff.oldPath?raw=true" class="diff-image" onload="onLoadedDiffImages(this)" style="display:none" /></div>
               } else {
                 @if(diff.changeType != ChangeType.ADD){
-                  <div style="padding: 12px;">Not supported</div>
+                  <div style="padding: 12px;">不支持比较</div>
                 }
               }
               @if(newCommitId.isDefined && diff.newIsImage){
                 <div class="diff-image-frame diff-new"><img src="@url(repository)/blob/@newCommitId.get/@diff.newPath?raw=true" class="diff-image" onload="onLoadedDiffImages(this)" style="display:none" /></div>
               } else {
                 @if(diff.changeType != ChangeType.DELETE){
-                  <div style="padding: 12px;">Not supported</div>
+                  <div style="padding: 12px;">不支持比较</div>
                 }
               }
               </div>
             } else {
               @if(diff.tooLarge){
-                <div style="padding: 12px;">Too large</div>
+                <div style="padding: 12px;">差异过大</div>
               } else {
-                <div style="padding: 12px;">Not supported</div>
+                <div style="padding: 12px;">不支持比较</div>
               }
             }
           }
@@ -135,10 +135,10 @@ $(function(){
   @if(showIndex){
     $('#toggle-file-list').click(function(){
       $('#commit-file-list').toggle();
-      if($(this).val() == 'Show file list'){
-        $(this).val('Hide file list');
+      if($(this).val() == '显示文件列表'){
+        $(this).val('隐藏文件列表');
       } else {
-        $(this).val('Show file list');
+        $(this).val('显示文件列表');
       }
     });
   }
@@ -294,8 +294,8 @@ $(function(){
     diffUsingJS('oldText-'+i, 'newText-'+i, diffText.attr('id'), viewType, ignoreWhiteSpace);
     var add = diffText.find("table").attr("add")*1;
     var del = diffText.find("table").attr("del")*1;
-    table.find(".diffstat").text(add+del+" ").append(renderStatBar(add,del)).attr("title",add+" additions & "+del+" deletions").tooltip();
-    $('span.diffstat[data-diff-id="'+i+'"]').html('<span class="text-diff-added">+'+add+'</span><span class="text-diff-deleted">-'+del+'</span>').append(renderStatBar(add,del).attr('title',(add+del)+" lines changed").tooltip());
+    table.find(".diffstat").text(add+del+" ").append(renderStatBar(add,del)).attr("title",add+" 增加 & "+del+" 删除").tooltip();
+    $('span.diffstat[data-diff-id="'+i+'"]').html('<span class="text-diff-added">+'+add+'</span><span class="text-diff-deleted">-'+del+'</span>').append(renderStatBar(add,del).attr('title',(add+del)+" 行改变了").tooltip());
 
     @if(hasWritePermission) {
       diffText.find('.body').each(function(){ $('<b class="add-comment">+</b>').prependTo(this); });

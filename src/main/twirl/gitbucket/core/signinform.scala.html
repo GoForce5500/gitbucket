@@ -3,21 +3,21 @@
 <div class="box-header">
   @if(systemSettings.allowAccountRegistration){
     <div class="pull-right">
-      <a href="@path/register" class="btn btn-mini">Create new account</a>
+      <a href="@path/register" class="btn btn-mini">创建新帐户</a>
     </div>
   }
-  <span class="strong">Sign in</span>
+  <span class="strong">登录</span>
 </div>
 <div class="box-content-bottom">
   <form action="@path/signin" method="POST" validate="true">
-    <label for="userName">Username:</label>
+    <label for="userName">用户名:</label>
     <span id="error-userName" class="error"></span>
     <input type="text" name="userName" id="userName" style="width: 95%" autofocus/>
-    <label for="password">Password:</label>
+    <label for="password">密码:</label>
     <span id="error-password" class="error"></span>
     <input type="password" name="password" id="password" style="width: 95%"/>
     <div>
-      <input type="submit" class="btn btn-success" value="Sign in"/>
+      <input type="submit" class="btn btn-success" value="登录"/>
     </div>
   </form>
 </div>

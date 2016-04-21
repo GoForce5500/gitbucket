@@ -22,12 +22,12 @@ object helpers extends AvatarImageProvider with LinkConverter with RequestCache 
   def datetime(date: Date): String = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
 
   val timeUnits = List(
-    (1000L, "second"),
-    (1000L * 60, "minute"),
-    (1000L * 60 * 60, "hour"),
-    (1000L * 60 * 60 * 24, "day"),
-    (1000L * 60 * 60 * 24 * 30, "month"),
-    (1000L * 60 * 60 * 24 * 365, "year")
+    (1000L, "秒"),
+    (1000L * 60, "分钟"),
+    (1000L * 60 * 60, "小时"),
+    (1000L * 60 * 60 * 24, "天"),
+    (1000L * 60 * 60 * 24 * 30, "月"),
+    (1000L * 60 * 60 * 24 * 365, "年")
   ).reverse
 
   /**
@@ -38,8 +38,8 @@ object helpers extends AvatarImageProvider with LinkConverter with RequestCache 
     timeUnits.find(tuple => duration / tuple._1 > 0) match {
       case Some((unitValue, unitString)) =>
         val value = duration / unitValue
-        s"${value} ${unitString}${if (value > 1) "s" else ""} ago"
-      case None => "just now"
+        s"${value}${unitString}前"
+      case None => "刚刚"
     }
   }
 
@@ -50,12 +50,12 @@ object helpers extends AvatarImageProvider with LinkConverter with RequestCache 
   def datetimeAgoRecentOnly(date: Date): String = {
     val duration = new Date().getTime - date.getTime
     timeUnits.find(tuple => duration / tuple._1 > 0) match {
-      case Some((_, "month")) => s"on ${new SimpleDateFormat("d MMM", Locale.ENGLISH).format(date)}"
-      case Some((_, "year")) => s"on ${new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).format(date)}"
+      case Some((_, "month")) => s"于 ${new SimpleDateFormat("d MMM", Locale.ENGLISH).format(date)}"
+      case Some((_, "year")) => s"于 ${new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).format(date)}"
       case Some((unitValue, unitString)) =>
         val value = duration / unitValue
-        s"${value} ${unitString}${if (value > 1) "s" else ""} ago"
-      case None => "just now"
+        s"${value}${unitString}前"
+      case None => "刚刚"
     }
   }
 

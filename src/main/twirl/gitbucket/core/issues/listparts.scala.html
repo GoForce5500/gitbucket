@@ -17,7 +17,7 @@
   <div>
     <a href="@gitbucket.core.service.IssuesService.IssueSearchCondition().toURL" class="header-link">
       <i class="octicon octicon-x" ></i>
-      <span class="strong">Clear current search query, filters, and sorts</span>
+      <span class="strong">清除当前查询条件, 过滤器和排序</span>
     </a>
   </div>
 }
@@ -28,15 +28,15 @@
       <span class="small">
         <a class="button-link@if(condition.state == "open"){ selected}" href="@condition.copy(state = "open").toURL">
           <i class="octicon octicon-issue-opened @(if(condition.state == "open"){"active"})"></i>
-          @openCount Open
+          @openCount 开放
         </a>&nbsp;&nbsp;
         <a class="button-link@if(condition.state == "closed"){ selected}" href="@condition.copy(state = "closed").toURL">
           <i class="octicon octicon-check @(if(condition.state == "closed"){"active"})"></i>
-          @closedCount Closed
+          @closedCount 关闭
         </a>
       </span>
       <div class="pull-right" id="table-issues-control">
-        @helper.html.dropdown("Author", flat = true) {
+        @helper.html.dropdown("作者", flat = true) {
           @collaborators.map { collaborator =>
             <li>
               <a href="@condition.copy(author = (if(condition.author == Some(collaborator)) None else Some(collaborator))).toURL">
@@ -46,7 +46,7 @@
             </li>
           }
         }
-        @helper.html.dropdown("Label", flat = true) {
+        @helper.html.dropdown("标签", flat = true) {
           @labels.map { label =>
             <li>
               <a href="@condition.copy(labels = (if(condition.labels.contains(label.labelName)) condition.labels - label.labelName else condition.labels + label.labelName)).toURL">
@@ -57,10 +57,10 @@
             </li>
           }
         }
-        @helper.html.dropdown("Milestone", flat = true) {
+        @helper.html.dropdown("里程碑", flat = true) {
           <li>
             <a href="@condition.copy(milestone = Some(None)).toURL">
-              @helper.html.checkicon(condition.milestone == Some(None)) Issues with no milestone
+              @helper.html.checkicon(condition.milestone == Some(None)) 尚无里程碑的问题
             </a>
           </li>
           @milestones.filter(_.closedDate.isEmpty).map { milestone =>
@@ -71,7 +71,7 @@
             </li>
           }
         }
-        @helper.html.dropdown("Assignee", flat = true) {
+        @helper.html.dropdown("被指派人", flat = true) {
           @collaborators.map { collaborator =>
             <li>
               <a href="@condition.copy(assigned = Some(collaborator)).toURL">
@@ -81,46 +81,46 @@
             </li>
           }
         }
-        @helper.html.dropdown("Sort", flat = true){
+        @helper.html.dropdown("排序", flat = true){
           <li>
             <a href="@condition.copy(sort="created",  direction="desc").toURL">
-            @helper.html.checkicon(condition.sort == "created"  && condition.direction == "desc") Newest
+            @helper.html.checkicon(condition.sort == "created"  && condition.direction == "desc") 最新的
             </a>
           </li>
           <li>
             <a href="@condition.copy(sort="created",  direction="asc" ).toURL">
-            @helper.html.checkicon(condition.sort == "created"  && condition.direction == "asc") Oldest
+            @helper.html.checkicon(condition.sort == "created"  && condition.direction == "asc") 最早的
             </a>
           </li>
           <li>
             <a href="@condition.copy(sort="comments", direction="desc").toURL">
-            @helper.html.checkicon(condition.sort == "comments"  && condition.direction == "desc") Most commented
+            @helper.html.checkicon(condition.sort == "comments"  && condition.direction == "desc") 最多备注的
             </a>
           </li>
           <li>
             <a href="@condition.copy(sort="comments", direction="asc" ).toURL">
-            @helper.html.checkicon(condition.sort == "comments"  && condition.direction == "asc") Least commented
+            @helper.html.checkicon(condition.sort == "comments"  && condition.direction == "asc") 最少备注的
             </a>
           </li>
           <li>
             <a href="@condition.copy(sort="updated",  direction="desc").toURL">
-            @helper.html.checkicon(condition.sort == "updated"  && condition.direction == "desc") Recently updated
+            @helper.html.checkicon(condition.sort == "updated"  && condition.direction == "desc") 最近更新的
             </a>
           </li>
           <li>
             <a href="@condition.copy(sort="updated",  direction="asc" ).toURL">
-            @helper.html.checkicon(condition.sort == "updated"  && condition.direction == "asc") Least recently updated
+            @helper.html.checkicon(condition.sort == "updated"  && condition.direction == "asc") 最早更新的
             </a>
           </li>
         }
       </div>
       @if(hasWritePermission){
         <div class="pull-right" id="table-issues-batchedit">
-          @helper.html.dropdown("Mark as", flat = true) {
-            <li><a href="javascript:void(0);" class="toggle-state" data-id="open">Open</a></li>
-            <li><a href="javascript:void(0);" class="toggle-state" data-id="close">Close</a></li>
+          @helper.html.dropdown("标记为", flat = true) {
+            <li><a href="javascript:void(0);" class="toggle-state" data-id="open">开放</a></li>
+            <li><a href="javascript:void(0);" class="toggle-state" data-id="close">关闭</a></li>
           }
-          @helper.html.dropdown("Label", flat = true) {
+          @helper.html.dropdown("标签", flat = true) {
             @labels.map { label =>
               <li>
                 <a href="javascript:void(0);" class="toggle-label" data-id="@label.labelId">
@@ -131,14 +131,14 @@
               </li>
             }
           }
-          @helper.html.dropdown("Milestone", flat = true) {
-            <li><a href="javascript:void(0);" class="toggle-milestone" data-id="">No milestone</a></li>
+          @helper.html.dropdown("里程碑", flat = true) {
+            <li><a href="javascript:void(0);" class="toggle-milestone" data-id="">尚无里程碑</a></li>
             @milestones.filter(_.closedDate.isEmpty).map { milestone =>
               <li><a href="javascript:void(0);" class="toggle-milestone" data-id="@milestone.milestoneId">@milestone.title</a></li>
             }
           }
-          @helper.html.dropdown("Assignee", flat = true) {
-            <li><a href="javascript:void(0);" class="toggle-assign" data-name=""><i class="octicon octicon-x"></i> Clear assignee</a></li>
+          @helper.html.dropdown("指派给", flat = true) {
+            <li><a href="javascript:void(0);" class="toggle-assign" data-name=""><i class="octicon octicon-x"></i>清除指派信息</a></li>
             @collaborators.map { collaborator =>
               <li><a href="javascript:void(0);" class="toggle-assign" data-name="@collaborator"><i class="icon-white"></i>@avatar(collaborator, 20) @collaborator</a></li>
             }
@@ -151,18 +151,18 @@
     <tr>
       <td style="padding: 20px; background-color: #eee; text-align: center;">
         @if(target == "issues"){
-          No issues to show.
+          暂无问题.
         } else {
-          No pull requests to show.
+          暂无合并请求.
         }
         @if(condition.labels.nonEmpty || condition.milestone.isDefined){
-          <a href="@condition.copy(labels = Set.empty, milestone = None).toURL">Clear active filters.</a>
+          <a href="@condition.copy(labels = Set.empty, milestone = None).toURL">清除过滤器.</a>
         } else {
           @if(repository.isDefined){
             @if(target == "issues"){
-              <a href="@url(repository.get)/issues/new">Create a new issue.</a>
+              <a href="@url(repository.get)/issues/new">创建问题.</a>
             } else {
-              <a href="@url(repository.get)/compare">Create a new pull request.</a>
+              <a href="@url(repository.get)/compare">创建合并请求.</a>
             }
           }
         }
@@ -203,7 +203,7 @@
           }
         </span>
         <div class="small muted" style="margin-left: 40px; margin-top: 5px;">
-          #@issue.issueId opened  @helper.html.datetimeago(issue.registeredDate) by @user(issue.openedUserName, styleClass="username")
+          @user(issue.openedUserName, styleClass="username") 开放 #@issue.issueId 于  @helper.html.datetimeago(issue.registeredDate)
           @milestone.map { milestone =>
             <span style="margin: 20px;"><a href="@condition.copy(milestone = Some(Some(milestone))).toURL" class="username"><i class="octicon octicon-milestone"></i>
 @milestone</a></span>
