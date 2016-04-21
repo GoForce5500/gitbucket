@@ -1,7 +1,25 @@
-GitBucket [![Gitter chat](https://badges.gitter.im/gitbucket/gitbucket.png)](https://gitter.im/gitbucket/gitbucket) [![Build Status](https://travis-ci.org/gitbucket/gitbucket.svg?branch=master)](https://travis-ci.org/gitbucket/gitbucket)
-=========
+GitBucket 是GitHub的一个仿制品，使用Scala开发，具备简易部署和高可伸缩性的特征.
+本代码为GitBucket的3.9版本汉化而来，所有需要汉化的部分均已得到汉化。
 
-GitBucket is a GitHub clone powered by Scala which has easy installation and high extensibility.
+*注释了私有仓库的功能，可通过编辑src/main/twirl/gitbucket/core/admin/system.scala.html恢复。
+
+功能特性
+--------
+此版本的汉化版GitBucket提供以下基本功能
+
+- 公有 / 私有的Git仓库（提供HTTP或SSH访问）
+- 代码浏览及在线编辑
+- 代码及问题查询
+- 维基
+- 问题追踪
+- 叉取 / 合并请求
+- 邮件通知
+- 活动列表
+- 简单的单位及用户管理，支持LDAP
+- 支持Gravatar
+- 插件系统
+
+以下为原版Gitbucket3.9介绍内容
 
 Features
 --------
